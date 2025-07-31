@@ -70,7 +70,7 @@ export default function Hero() {
   };
 
   return (
-    <main className="min-h-screen flex flex-col items-center px-10 pb-10 gap-15 ">
+    <main className="min-h-screen flex flex-col items-center px-4 sm:px-10 pb-10 gap-15">
       <Navbar />
       <div className="flex flex-col gap-8 text-center items-center justify-center">
         <div className="flex bg-white justify-center shadow-lg rounded-lg p-1">
@@ -82,18 +82,18 @@ export default function Hero() {
           <p className="sm:text-xs font-thin">Shorten Your Links with Ease</p>
         </div>
 
-        <h1 className="text-6xl text-center">
+        <h1 className="text-4xl sm:text-6xl text-center">
           Shorten, Customize, and <br /> Share Your Links in One Click
         </h1>
 
-        <h3 className="text-center">
+        <h3 className="text-sm sm:text-base text-center">
           Easily create branded short links and QR codes to connect your
           audience with the right <br />
           content faster, smarter, and with full tracking to help you measure
           what matters.
         </h3>
 
-        <div className="flex gap-4">
+        <div className="flex gap-4 flex-col sm:flex-row items-center">
           <button
             className={`px-4 py-3 rounded-xl shadow-lg transition ${
               activeTab === "short" ? "bg-blue-500 text-white" : "bg-white text-black"
@@ -118,10 +118,10 @@ export default function Hero() {
         <ArrowDownIcon className="w-3 h-3" />
       </div>
 
-      <div className="relative w-[65%]">
+      <div className="relative w-full sm:w-[65%]">
         <div className="absolute top-8 left-8 w-full h-full bg-blue-900 rounded-2xl z-0"></div>
 
-        <div className="flex flex-col gap-5 relative w-full bg-white rounded-2xl shadow-md z-10 px-15 py-5">
+       <div className="flex flex-col gap-5 relative w-full bg-white rounded-2xl shadow-md z-10 px-5 sm:px-15 py-5">
           <h2 className="text-3xl">
             {activeTab === "short" ? "Shorten a long link" : "Generate a QR code"}
           </h2>
@@ -189,7 +189,7 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="flex flex-col py-15 gap-3 w-[80%] text-center">
+      <div className="flex flex-col py-10 gap-3 w-full sm:w-[80%] text-center">
         <p>
           Trusted by 200,000+ users in 130+ countries to simplify sharing and expand their reach.
         </p>
