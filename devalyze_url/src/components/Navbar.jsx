@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Menu, X } from 'lucide-react'; // Install lucide-react for icons
+import { CgMenuLeft } from "react-icons/cg";
+import { MdClose } from "react-icons/md";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,7 +38,7 @@ export default function Navbar() {
       {/* Mobile Menu Toggle Button */}
       <div className="md:hidden">
         <button onClick={() => setIsOpen(!isOpen)}>
-          {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {isOpen ? <MdClose className="w-6 h-6" /> : <CgMenuLeft className="w-6 h-6" />}
         </button>
       </div>
 
