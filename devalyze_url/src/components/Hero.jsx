@@ -75,9 +75,21 @@ export default function Hero() {
       <div className="flex flex-col gap-8 text-center items-center justify-center">
         <div className="flex bg-white justify-center shadow-lg rounded-lg p-1">
           <div className="flex -space-x-2 px-1">
-            <img className="w-5 h-4 rounded-full border-2 border-white" src="/user1.jpg" alt="User 1" />
-            <img className="w-5 h-4 rounded-full border-2 border-white" src="/user2.jpg" alt="User 2" />
-            <img className="w-5 h-4 rounded-full border-2 border-white" src="/user3.jpg" alt="User 3" />
+            <img
+              className="w-5 h-4 rounded-full border-2 border-white"
+              src="/user1.jpg"
+              alt="User 1"
+            />
+            <img
+              className="w-5 h-4 rounded-full border-2 border-white"
+              src="/user2.jpg"
+              alt="User 2"
+            />
+            <img
+              className="w-5 h-4 rounded-full border-2 border-white"
+              src="/user3.jpg"
+              alt="User 3"
+            />
           </div>
           <p className="sm:text-xs font-thin">Shorten Your Links with Ease</p>
         </div>
@@ -96,7 +108,9 @@ export default function Hero() {
         <div className="flex gap-4 flex-col sm:flex-row items-center">
           <button
             className={`px-4 py-3 rounded-xl shadow-lg transition ${
-              activeTab === "short" ? "bg-blue-500 text-white" : "bg-white text-black"
+              activeTab === "short"
+                ? "bg-blue-500 text-white"
+                : "bg-white text-black"
             }`}
             onClick={() => setActiveTab("short")}
           >
@@ -105,7 +119,9 @@ export default function Hero() {
 
           <button
             className={`px-5 py-3 rounded-xl shadow-lg transition ${
-              activeTab === "qr" ? "bg-blue-500 text-white" : "bg-white text-black"
+              activeTab === "qr"
+                ? "bg-blue-500 text-white"
+                : "bg-white text-black"
             }`}
             onClick={() => setActiveTab("qr")}
           >
@@ -119,11 +135,18 @@ export default function Hero() {
       </div>
 
       <div className="relative w-full sm:w-[65%]">
-        <div className="absolute top-8 left-8 w-full h-full bg-blue-900 rounded-2xl z-0"></div>
+        <div
+          className="absolute top-8 left-8 w-full h-full bg-blue-900 rounded-2xl z-0 
+            sm:top-4 sm:left-4 
+            xs:top-2 xs:left-2 
+            max-w-full overflow-hidden"
+        ></div>
 
-       <div className="flex flex-col gap-5 relative w-full bg-white rounded-2xl shadow-md z-10 px-5 sm:px-15 py-5">
+        <div className="flex flex-col gap-5 relative w-full bg-white rounded-2xl shadow-md z-10 px-5 sm:px-15 py-5">
           <h2 className="text-3xl">
-            {activeTab === "short" ? "Shorten a long link" : "Generate a QR code"}
+            {activeTab === "short"
+              ? "Shorten a long link"
+              : "Generate a QR code"}
           </h2>
           <p className="text-xs">No credit card required</p>
           <h3>Paste your long link here</h3>
@@ -140,7 +163,9 @@ export default function Hero() {
               type="submit"
               disabled={loading}
               className={`w-40 px-5 py-3 rounded-xl bg-blue-900 text-white text-xs ${
-                loading ? "opacity-50 cursor-not-allowed" : "hover:bg-blue-800 transition"
+                loading
+                  ? "opacity-50 cursor-not-allowed"
+                  : "hover:bg-blue-800 transition"
               }`}
             >
               {loading
@@ -164,7 +189,8 @@ export default function Hero() {
               </button>
               {countdown !== null && (
                 <p className="text-sm text-gray-500 mt-1">
-                  Short url will disappear in <span className="font-semibold">{countdown}</span>s
+                  Short url will disappear in{" "}
+                  <span className="font-semibold">{countdown}</span>s
                 </p>
               )}
             </div>
@@ -181,7 +207,8 @@ export default function Hero() {
               </button>
               {countdown !== null && (
                 <p className="text-sm text-gray-500 mt-1">
-                  QR Code will disappear in <span className="font-semibold">{countdown}</span>s
+                  QR Code will disappear in{" "}
+                  <span className="font-semibold">{countdown}</span>s
                 </p>
               )}
             </div>
@@ -191,7 +218,8 @@ export default function Hero() {
 
       <div className="flex flex-col py-10 gap-3 w-full sm:w-[80%] text-center">
         <p>
-          Trusted by 200,000+ users in 130+ countries to simplify sharing and expand their reach.
+          Trusted by 200,000+ users in 130+ countries to simplify sharing and
+          expand their reach.
         </p>
         <TrustedBy />
       </div>
