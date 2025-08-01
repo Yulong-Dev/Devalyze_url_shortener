@@ -82,18 +82,17 @@ export default function Hero() {
           <p className="sm:text-xs font-thin">Shorten Your Links with Ease</p>
         </div>
 
-        <h1 className="text-4xl sm:text-6xl text-center">
-          Shorten, Customize, and <br /> Share Your Links in One Click
+        <h1 className="text-4xl font-bold sm:text-6xl text-center sm:px-80 px-4">
+          Shorten, Customize, and  Share Your Links in One Click
         </h1>
 
-        <h3 className="text-sm sm:text-base text-center">
+        <h3 className="text-sm sm:text-base text-gray-600 sm:px-95 px-10 text-center">
           Easily create branded short links and QR codes to connect your
-          audience with the right <br />
-          content faster, smarter, and with full tracking to help you measure
+          audience with the right  content faster, smarter, and with full tracking to help you measure
           what matters.
         </h3>
 
-        <div className="flex gap-4 flex-col sm:flex-row items-center">
+        <div className="flex gap-4 items-center">
           <button
             className={`px-4 py-3 rounded-xl shadow-lg transition ${
               activeTab === "short" ? "bg-blue-500 text-white" : "bg-white text-black"
