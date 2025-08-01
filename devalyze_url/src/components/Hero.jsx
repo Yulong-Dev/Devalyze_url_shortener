@@ -182,7 +182,7 @@ export default function Hero() {
               </span>
               <button
                 onClick={() => copyToClipboard(shortUrl)}
-                className="w-full sm:w-auto px-3 py-2 bg-blue-500 text-white text-xs sm:text-sm rounded hover:bg-blue-600 transition"
+                className="w-auto px-3 py-2 bg-blue-500 text-white text-xs sm:text-sm rounded hover:bg-blue-600 transition"
               >
                 Copy
               </button>
@@ -200,7 +200,7 @@ export default function Hero() {
               <img src={qrCodeUrl} alt="QR Code" className="w-40 h-40" />
               <button
                 onClick={() => copyToClipboard(qrCodeUrl)}
-                className="w-full sm:w-auto px-3 py-2 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition"
+                className="w-auto px-3 py-2 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition"
               >
                 Copy Image URL
               </button>
