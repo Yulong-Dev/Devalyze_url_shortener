@@ -10,7 +10,7 @@ const faqs = [
   {
     question: "How Do I Shorten A Link?",
     answer:
-      "Just paste your long URL into the input box on Deanalyse, click the “Shorten” button, and your clean, short link will be ready to use.",
+      "Just paste your long URL into the input box on Devalyse, click the “Shorten” button, and your clean, short link will be ready to use.",
   },
   {
     question: "Can I Create QR Codes Too??",

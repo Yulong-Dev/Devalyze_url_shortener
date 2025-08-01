@@ -12,7 +12,7 @@ import { FaLocationDot } from "react-icons/fa6";
 const Footer = () => {
   return (
     <div className="align-center min-h-[50vh] bg-blue-950 text-white py-[8%] sm:py-[3%]">
-      <div className="h-full flex flex-col sm:flex-row justify-center gap-10 sm:gap-20 flex-wrap px-4 text-center sm:text-left">
+      <div className="h-full flex flex-col sm:flex-row justify-between gap-10 sm:gap-20 flex-wrap px-30 text-center sm:text-left">
         {/* About Section */}
         <div className="flex flex-col gap-4 max-w-xs mx-auto sm:mx-0">
           <h1 className="text-2xl font-bold">Devalyze</h1>
@@ -75,7 +75,7 @@ const Footer = () => {
       </div>
 
       {/* Footer Note */}
-      <div className="flex justify-center mt-10 text-sm text-center">
+      <div className="flex justify-center mt-[6%] text-sm text-center">
         <p>&copy; 2025 Devalyze. All rights reserved.</p>
       </div>
     </div>

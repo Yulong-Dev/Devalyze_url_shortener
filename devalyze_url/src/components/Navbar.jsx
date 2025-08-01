@@ -15,8 +15,8 @@ export default function Navbar() {
       </div>
 
       {/* Desktop Nav */}
-      <div className="hidden md:flex items-center gap-9 text-[15px] font-medium text-gray-700">
-        <button className="px-3 py-1.5 rounded bg-gray-100 hover:bg-gray-200">Platform</button>
+      <div className="hidden md:flex items-center gap-9 text-[15px] bg-white shadow-md rounded-xl p-1 font-medium text-gray-700">
+        <button className="px-3 py-1.5 rounded-lg bg-gray-100 hover:bg-gray-200">Platform</button>
         <a href="#" className="hover:text-black">Services</a>
         <a href="#" className="hover:text-black pr-2">About</a>
       </div>

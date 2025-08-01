@@ -74,6 +74,8 @@
   
   main{
     background-image: url('/src/assets/Diagonal Lines.png');
+    background-size: cover;
+    background-position: center;
   }
   h1,
   h2,
@@ -85,7 +87,7 @@
     font-weight: 400;
     font-family: "inria Sans", sans-serif;
   }
-  li{
+  li, button{
     font-weight: 400;
     font-family: "Work Sans", sans-serif;
   }
@@ -105,14 +107,5 @@
   }
 }
 
-/* Buttons and utility classes */
-@layer components {
-  .btn-primary {
-    @apply bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded;
-  }
 
-  .btn-copy {
-    @apply bg-green-500 hover:bg-green-600 text-white text-sm px-3 py-1 rounded;
-  }
-}
 

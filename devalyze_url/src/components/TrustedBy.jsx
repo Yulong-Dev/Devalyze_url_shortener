@@ -1,12 +1,15 @@
 import React from "react";
 
 const logos = [
-  "/logos/apple.png",
-  "/logos/microsoft.png",
-  "/logos/doordash.png",
+  "/logos/zapier.png",
+  "/logos/survey.png",
   "/logos/netflix.png",
+  "/logos/doordash.png",
   "/logos/google.png",
-  "/logos/slack.png",
+  "/logos/Figma.png",
+  "/logos/amazon.webp",
+  "/logos/apple.png",
+  "/logos/spotify.png",
 ];
 
 const TrustedBy = () => {
@@ -14,8 +17,8 @@ const TrustedBy = () => {
   const repeatedLogos = [...logos, ...logos];
 
   return (
-    <div className="relative overflow-hidden bg-white py-6">
-      <div className="whitespace-nowrap animate-marquee">
+    <div className="relative overflow-hidden bg-transparent py-6">
+      <div className="whitespace-nowrap animate-marquee px-4">
         {repeatedLogos.map((logo, index) => (
           <img
             key={index}
