@@ -118,7 +118,7 @@ export default function Hero() {
         <ArrowDownIcon className="w-3 h-3" />
       </div>
 
-      <div className="relative w-full sm:w-[65%]">
+      <div className="relative w-11/12 sm:w-[65%]">
        <div className="absolute top-2 left-2 md:top-8 md:left-8 w-full h-full bg-blue-950 rounded-2xl z-0"></div>
 
        <div className="flex flex-col gap-5 relative w-full bg-white rounded-2xl shadow-md z-10 px-5 sm:px-15 py-5">
