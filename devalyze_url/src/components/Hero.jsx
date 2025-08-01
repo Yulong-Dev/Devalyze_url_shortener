@@ -177,18 +177,18 @@ export default function Hero() {
 
           {shortUrl && activeTab === "short" && (
             <div className="p-4 bg-gray-100 border border-gray-300 rounded-lg flex sm:items-center sm:justify-between gap-2">
-              <span className="text-blue-700 text-sm break-all">
+              <span className="text-blue-700 text-xs sm:text-sm break-all">
                 {shortUrl}
               </span>
               <button
                 onClick={() => copyToClipboard(shortUrl)}
-                className="w-full sm:w-auto px-3 py-2 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition"
+                className="w-full sm:w-auto px-3 py-2 bg-blue-500 text-white text-xs sm:text-sm rounded hover:bg-blue-600 transition"
               >
                 Copy
               </button>
               {countdown !== null && (
                 <p className="text-xs text-gray-500 text-center sm:text-left">
-                  Short URL will disappear in{" "}
+                  Disappear in {" "}
                   <span className="font-semibold">{countdown}</span>s
                 </p>
               )}
