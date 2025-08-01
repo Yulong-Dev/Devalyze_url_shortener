@@ -9,7 +9,7 @@ const More = () => {
         {/* Text Section */}
         <div className="flex flex-col justify-center items-center text-center gap-3">
           <p className="text-xs sm:text-sm">CLICK.SCAN.CONNECT.IT'S THAT SIMPLE</p>
-          <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold">
+          <h1 className="text-2xl sm:text-3xl font-bold md:text-5xl ">
             The Devalyze Link & QR Experience
           </h1>
           <p className="text-xs sm:text-sm">
