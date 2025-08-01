@@ -1,5 +1,4 @@
 import React from "react";
-import linke from "../../public/logos/link.svg";
 import qr from "../../public/logos/Group.svg";
 import { FaArrowUp } from "react-icons/fa";
 
@@ -29,7 +28,7 @@ const More = () => {
             <div className="h-60 relative flex flex-col justify-center items-center pt-8">
               <div className="flex gap-4 justify-center items-center w-72 h-14 bg-white rounded-2xl shadow-2xl z-30">
                 <div className="h-9 w-9 bg-blue-500 rounded-xl flex justify-center items-center">
-                  <img src={linke} alt="link.svg" />
+                  <img src="/logos/Link.svg" alt="link icon" />
                 </div>
                 <h1 className="text-black text-xl sm:text-lg">
                   yourlink.co/<span className="text-blue-500">app</span>
@@ -44,7 +43,7 @@ const More = () => {
               <div className="flex justify-between items-center">
                 <div className="flex gap-4 items-center">
                   <div className="h-9 w-9 bg-blue-500 rounded-xl flex justify-center items-center">
-                    <img src={linke} alt="link.svg" />
+                    <img src="/logos/Link.svg" alt="link icon" />
                   </div>
                   <h1 className="text-black text-lg">URL Shortener</h1>
                 </div>
