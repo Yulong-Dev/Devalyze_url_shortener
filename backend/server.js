@@ -11,12 +11,20 @@ const app = express();
 
 
 const PORT = process.env.PORT || 10000;
+const allowedOrigins = ['https://devalyze-url-shortener.vercel.app'];
 
 // Middleware
 app.use(cors({
-  origin: 'devalyze-url-shortener.vercel.app',
-}
-));
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  }
+}));
+
+// Parse JSON bodies
 app.use(express.json());
 
 
