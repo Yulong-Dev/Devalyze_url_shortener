@@ -198,12 +198,6 @@ export default function Hero() {
           {qrCodeUrl && activeTab === "qr" && (
             <div className="flex flex-col items-center gap-3 p-4 bg-gray-100 border border-gray-300 rounded-lg">
               <img src={qrCodeUrl} alt="QR Code" className="w-40 h-40" />
-              <button
-                onClick={() => copyToClipboard(qrCodeUrl)}
-                className="w-auto px-3 py-2 bg-blue-500 text-white text-sm rounded hover:bg-blue-600 transition"
-              >
-                Copy Image URL
-              </button>
               {countdown !== null && (
                 <p className="text-xs text-gray-500 text-center">
                   QR Code will disappear in{" "}
