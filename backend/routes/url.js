@@ -11,8 +11,14 @@ router.post("/shorten", async (req, res) => {
   try {
     let url = new Url({ longUrl, shortCode });
     await url.save();
-    res.json({ shortUrl: `http://localhost:5000/${shortCode}` });
+
+    const protocol = req.protocol;
+    const host = req.headers.host;
+    const fullShortUrl = `${protocol}://${host}/${shortCode}`;
+
+    res.json({ shortUrl: fullShortUrl });
   } catch (err) {
+    console.error("POST /shorten error:", err);
     res.status(500).json({ error: "Server error" });
   }
 });
@@ -28,9 +34,10 @@ router.get("/:shortCode", async (req, res) => {
       res.status(404).send("URL not found");
     }
   } catch (err) {
-    console.error("POST /shorten error:", err);
+    console.error("GET /:shortCode error:", err);
     res.status(500).json({ error: "Server error" });
   }
 });
 
 module.exports = router;
+
