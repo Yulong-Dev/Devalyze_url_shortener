@@ -72,7 +72,7 @@ export default function Navbar() {
             transition: { duration: 0.2 }
           }}
           whileTap={{ scale: 0.98 }}
-          className="px-3 py-2 h-11 rounded-lg flex items-center justify-center gap-1"
+          className="px-3 py-2 h-11 rounded-lg flex items-center justify-center gap-1 bg-[#f2f2f2]"
         >
           <p className='text-black text-md font-normal'>Platform</p>
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="15" viewBox="0 0 18 18" fill="none">
