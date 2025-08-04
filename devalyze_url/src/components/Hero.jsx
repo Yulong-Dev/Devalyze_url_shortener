@@ -2,6 +2,10 @@ import { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import { ArrowDownIcon } from "@heroicons/react/24/outline";
 import TrustedBy from "../components/TrustedBy"; // ✅ update path for ReactJS
+import { LazyLoadComponent, LazyLoadImage } from 'react-lazy-load-image-component';
+import user1 from "/public/logos/user1.png"
+import user2 from "/public/logos/user2.png"
+import user3 from "/public/logos/user3.png"
 
 export default function Hero() {
   const [longUrl, setLongUrl] = useState("");
@@ -76,25 +80,25 @@ export default function Hero() {
     <main className="min-h-screen flex flex-col bg-gray-100 items-center  gap-15">
       <Navbar />
       <div className="flex flex-col gap-8 text-center items-center justify-center">
-        <div className="flex bg-white justify-center shadow-lg rounded-lg p-1">
-          <div className="flex -space-x-2 px-1">
-            <img
-              className="w-5 h-4 rounded-full border-2 border-white"
-              src="/user1.jpg"
+        <div className="flex bg-white justify-center shadow-lg rounded-3xl py-1 px-2 items-center">
+          <div className="flex -space-x-3 px-2">
+            <LazyLoadImage
+              className="w-8 h-8 rounded-full border-2 border-white object-cover object-center"
+              src={user1}
               alt="User 1"
             />
-            <img
-              className="w-5 h-4 rounded-full border-2 border-white"
-              src="/user2.jpg"
+            <LazyLoadImage
+              className="w-8 h-8 rounded-full border-2 border-white object-cover object-center"
+              src={user2}
               alt="User 2"
             />
-            <img
-              className="w-5 h-4 rounded-full border-2 border-white"
-              src="/user3.jpg"
+            <LazyLoadImage
+              className="w-8 h-8 rounded-full border-2 border-white object-cover"
+              src={user3}
               alt="User 3"
             />
           </div>
-          <p className="sm:text-xs font-thin">Shorten Your Links with Ease</p>
+          <p className="sm:max-md:text-xs text-md text-[#262626] font-instrument font-medium text-center">Shorten Your Links with Ease</p>
         </div>
 
         <h1 className="text-4xl font-bold sm:text-6xl text-center sm:px-80 px-4">
