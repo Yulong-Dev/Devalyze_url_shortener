@@ -3,6 +3,7 @@ import { CgMenuLeft } from "react-icons/cg";
 import { MdClose } from "react-icons/md";
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { motion, AnimatePresence } from 'framer-motion';
+import logo from "/public/logos/devalyse.png"
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -50,7 +51,7 @@ export default function Navbar() {
       >
         <div className="h-12 w-35 gap-3 bg-white shadow-md rounded-lg flex items-center justify-center">
           <LazyLoadImage 
-            src="/public/logos/devalyse.png" 
+            src={logo}
             alt="Devalyze Logo" 
             className='w-7'
             effect="opacity"
@@ -72,7 +73,7 @@ export default function Navbar() {
             transition: { duration: 0.2 }
           }}
           whileTap={{ scale: 0.98 }}
-          className="px-3 py-2 h-11 rounded-lg flex items-center justify-center gap-1"
+          className="px-3 py-2 h-11 rounded-lg flex items-center justify-center gap-1 bg-[#f2f2f2]"
         >
           <p className='text-black text-md font-normal'>Platform</p>
           <svg xmlns="http://www.w3.org/2000/svg" width="18" height="15" viewBox="0 0 18 18" fill="none">
