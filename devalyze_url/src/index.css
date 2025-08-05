@@ -1,4 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
 @import "tailwindcss";
+
+@theme{
+  --font-instrument: "Instrument Sans", sans-serif;
+  --font-geist:"Geist", sans-serif;
+}
 
 /* Custom global base styles */
 @layer base {
@@ -15,92 +22,6 @@
     box-sizing: border-box;
   }
   
-.outfit-font{
-  font-family: "Outfit", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 400;
-  font-style: normal;
-
-}
-.inria-sans-light {
-  font-family: "Inria Sans", sans-serif;
-  font-weight: 300;
-  font-style: normal;
-}
-
-.inria-sans-regular {
-  font-family: "Inria Sans", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.inria-sans-bold {
-  font-family: "Inria Sans", sans-serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.inria-sans-light-italic {
-  font-family: "Inria Sans", sans-serif;
-  font-weight: 300;
-  font-style: italic;
-}
-
-.inria-sans-regular-italic {
-  font-family: "Inria Sans", sans-serif;
-  font-weight: 400;
-  font-style: italic;
-}
-
-.inria-sans-bold-italic {
-  font-family: "Inria Sans", sans-serif;
-  font-weight: 700;
-  font-style: italic;
-}
-
-.work-sans-font {
-  font-family: "Work Sans", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 300,400,500,600,700;
-  font-style: normal;
-}
-
-  body {
-    margin: 0;
-    padding: 0;
-    background-color: white;
-    font-family: sans-serif;
-  }
-  
-  main{
-    background-image: url('/src/assets/Diagonal Lines.png');
-    background-size: cover;
-    background-position: center;
-  }
-  h1,
-  h2,
-  h3 {
-    font-weight: 600;
-    font-family: "Outfit", sans-serif;
-  }
-  p{
-    font-weight: 400;
-    font-family: "inria Sans", sans-serif;
-  }
-  li, button{
-    font-weight: 400;
-    font-family: "Work Sans", sans-serif;
-  }
-
-  @keyframes marquee {
-    0% {
-      transform: translateX(0%);
-    }
-    100% {
-      transform: translateX(-50%);
-    }
-  }
-
   .animate-marquee {
     display: inline-block;
     animation: marquee 25s linear infinite;

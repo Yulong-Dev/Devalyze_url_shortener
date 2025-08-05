@@ -81,7 +81,11 @@ export default function Hero() {
       <Navbar />
       <div className="flex flex-col gap-8 text-center items-center justify-center">
         <div className="flex bg-white justify-center shadow-lg rounded-3xl py-1 px-2 items-center">
+<<<<<<< HEAD
           <div className="flex -space-x-3 px-2">
+=======
+          <div className="flex -space-x-3 px-2 ">
+>>>>>>> dev
             <LazyLoadImage
               className="w-8 h-8 rounded-full border-2 border-white object-cover object-center"
               src={user1}
