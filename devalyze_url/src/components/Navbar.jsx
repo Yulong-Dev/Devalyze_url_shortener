@@ -160,7 +160,7 @@ export default function Navbar() {
                 <motion.a
                   key={item}
                   href="#"
-                  className="px-4 py-3 text-[#4D4D4D] text-md font-normal border-b border-gray-100"
+                  className="px-4 py-3 text-[#4D4D4D] hover:text-black text-md font-normal border-b border-gray-100"
                   custom={i + 1}
                   variants={navItem}
                   initial="hidden"
