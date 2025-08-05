@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import React, { useState } from 'react';
 import { CgMenuLeft } from "react-icons/cg";
 import { MdClose } from "react-icons/md";
@@ -109,18 +110,17 @@ export default function Navbar() {
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
         >
-          <button className="text-md font-normal px-5 py-2 rounded-xl bg-white text-black shadow-sm h-11 hover:bg-gray-100 transition-colors">
+          <Link to="/SignUp" className="text-md font-normal px-5 py-3.5 rounded-xl bg-white text-black shadow-sm h-11 hover:bg-gray-100 transition-colors">
             Sign Up
-          </button>
+          </Link>
         </motion.a>
-        <motion.a 
-          href="/login"
+        <motion.a
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.98 }}
         >
-          <button className="text-md font-normal px-5 py-2 rounded-xl shadow-sm bg-blue-500 text-white hover:bg-blue-600 h-11 transition-colors">
+          <Link to="/SignIn" className="text-md font-normal px-5 py-3.5 rounded-xl shadow-sm bg-blue-500 text-white hover:bg-blue-600 h-11 transition-colors">
             Login
-          </button>
+          </Link>
         </motion.a>
       </motion.div>
 
@@ -193,9 +193,9 @@ export default function Navbar() {
                   animate="visible"
                   onClick={() => setIsOpen(false)}
                 >
-                  <button className="w-full px-5 py-3 rounded-xl bg-blue-500 text-white text-md font-normal hover:bg-blue-600 transition-colors">
+                  <Link to="SignIn" className="w-full px-5 py-3 rounded-xl bg-blue-500 text-white text-md font-normal hover:bg-blue-600 transition-colors">
                     Login
-                  </button>
+                  </Link>
                 </motion.a>
               </div>
             </div>
