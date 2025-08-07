@@ -36,6 +36,10 @@ app.use('/', urlRoutes);
 const qrRoutes = require('./routes/qr');
 app.use('/qr', qrRoutes); 
 
+// Authentication routes
+const authRoutes = require('./routes/auth');
+app.use("/api/auth", authRoutes);
+
 // Connect to MongoDB Atlas
 connectDB();
 mongoose.connect(process.env.MONGO_URI)
