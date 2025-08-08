@@ -94,9 +94,7 @@ export default function Navbar() {
               strokeLinejoin="round"
             />
           </svg>
-           <Link to="/dashboard" className="btn">
-          Go to Dashboard
-        </Link>
+           
         </motion.button>
 
         {["Services", "About"].map((item, i) => (

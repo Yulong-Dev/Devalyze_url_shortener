@@ -8,6 +8,8 @@ import {
 } from "react-icons/fa";
 import { IoLinkSharp, IoMail } from "react-icons/io5";
 import { FaLocationDot } from "react-icons/fa6";
+import { Link } from "react-router-dom";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 const Footer = () => {
   return (
@@ -23,7 +25,8 @@ const Footer = () => {
           </p>
           <div className="flex justify-center sm:justify-start gap-4 text-xl">
             <div className="bg-white text-indigo-900 p-1 rounded-full">
-              <FaFacebookF />
+              <Link to="dashboard">
+              <FaFacebookF /></Link>
             </div>
             <div className="bg-white text-indigo-900 p-1 rounded-full">
               <FaTwitter />

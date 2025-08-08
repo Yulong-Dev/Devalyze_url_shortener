@@ -9,6 +9,7 @@ import {
   HelpCircle,
   LayoutDashboard,
   Globe,
+  X,
 } from "lucide-react";
 
 const navLinks = [
@@ -44,12 +45,11 @@ const navLinks = [
 ];
 
 const DashboardLayout = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [sidebarOpen, setSidebarOpen] = useState(false); // closed by default on mobile
 
-  // Time & Greeting Logic
+  // Time & Greeting
   const date = new Date();
   const hours = date.getHours();
-
   let greeting = "";
   let icon = "";
 
@@ -71,22 +71,30 @@ const DashboardLayout = () => {
   });
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen relative">
       {/* Sidebar */}
       <div
-        className={`bg-gray-50 text-black shadow-2xl justify-between w-64 p-4 py-7 h-full ${
-          sidebarOpen ? "flex flex-col" : "hidden"
-        } md:flex md:flex-col`}
+        className={`flex flex-col bg-gray-50 text-black justify-between shadow-2xl w-64 p-4 py-7 h-full fixed md:static z-50 transform transition-transform duration-300
+        ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0`}
       >
-        {/* Navigation */}
         <nav className="flex flex-col gap-9">
-          <div className="flex text-center gap-2 items-center">
-            <img
-              src="/logos/devalyse.png"
-              alt="devalyze_logo"
-              className="h-6 w-8"
-            />
-            <h1 className=" text-xl font-bold">Devalyze</h1>
+          <div className="flex items-center justify-between">
+            <div className="flex text-center gap-2 items-center">
+              <img
+                src="/logos/devalyse.png"
+                alt="devalyze_logo"
+                className="h-6 w-8"
+              />
+              <h1 className=" text-xl font-bold">Devalyze</h1>
+            </div>
+            {/* Close button (mobile only) */}
+            <div className="flex justify-end items-center mb md:hidden">
+              <button onClick={() => setSidebarOpen(false)}>
+                <X size={22} />
+              </button>
+            </div>
           </div>
           <div className="flex flex-col gap-2">
             {navLinks.map((link) => (
@@ -94,6 +102,7 @@ const DashboardLayout = () => {
                 to={link.path}
                 end={link.path === "/dashboard"}
                 key={link.name}
+                onClick={() => setSidebarOpen(false)} // close sidebar when clicked
                 className={({ isActive }) =>
                   `flex items-center gap-3 text-sm px-3 py-2 rounded transition-all ${
                     isActive
@@ -115,7 +124,7 @@ const DashboardLayout = () => {
         </nav>
 
         {/* Usage Progress */}
-        <div className="text-sm">
+        <div className="text-sm mt-6">
           <p className="text-gray-400">2/10 Links Used</p>
           <div className="bg-gray-300 h-2 rounded-full w-full mt-1">
             <div className="bg-blue-500 h-2 rounded-full w-1/5"></div>
@@ -124,20 +133,25 @@ const DashboardLayout = () => {
       </div>
 
       {/* Main Panel */}
-      <div className="flex-1 bg-gray-50 p-4">
+      <div className="flex-1 bg-gray-50 py-3 pr-3">
         {/* Topbar */}
-        <div className="flex justify-between items-center mb-6">
-          <div
-            className="greeting-container"
-            style={{ textAlign: "center", padding: "1rem" }}
+        <div className="flex md:justify-between gap-8 items-center pb-3 px-3 w-full">
+          {/* Mobile menu button */}
+          <button
+            className="md:hidden p-2 bg-gray-200 rounded"
+            onClick={() => setSidebarOpen(true)}
           >
-            <h2 className="text-lg font-bold">
+            <Menu size={22} />
+          </button>
+
+          <div className="greeting-container text-center">
+            <h2 className="text-md font-bold">
               {icon} {greeting}, JniduBen
             </h2>
-            <p style={{ color: "#555" }}>{formattedDate}</p>
+            <p className="text-gray-500">{formattedDate}</p>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-4">
             <button className="bg-blue-600 text-white px-4 py-2 rounded text-sm">
               + Create New
             </button>
@@ -158,4 +172,3 @@ const DashboardLayout = () => {
 };
 
 export default DashboardLayout;
-
