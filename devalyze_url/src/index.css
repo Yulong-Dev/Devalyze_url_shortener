@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Geist:wght@100..900&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap");
 @import "tailwindcss";
 
-@theme{
+@theme {
   --font-instrument: "Instrument Sans", sans-serif;
-  --font-geist:"Geist", sans-serif;
+  --font-geist: "Geist", sans-serif;
 }
 
 /* Custom global base styles */
@@ -21,12 +21,18 @@
     list-style: none;
     box-sizing: border-box;
   }
-  
-  .animate-marquee {
+  @keyframes marquee {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .marquee {
     display: inline-block;
-    animation: marquee 25s linear infinite;
+    white-space: nowrap;
+    animation: marquee 20s linear infinite;
   }
 }
-
-
-
