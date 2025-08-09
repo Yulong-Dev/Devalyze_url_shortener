@@ -115,7 +115,7 @@ export default function Navbar() {
 
       {/* Desktop Auth Buttons */}
       <motion.div
-        className="hidden md:flex items-center gap-4 h-11"
+        className="hidden lg:flex items-center gap-4 h-11"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.4 }}
@@ -208,34 +208,31 @@ export default function Navbar() {
               ))}
 
               {/* Mobile Auth Buttons */}
-              <div className="flex flex-col gap-3 mt-4">
-                <motion.a
+              <div className="flex flex-col p-1 gap-4 mt-4 min-h w-full" >
+                <Link
                   href="/signup"
                   variants={navItem}
                   custom={3}
                   initial="hidden"
                   animate="visible"
                   onClick={() => setIsOpen(false)}
+                  className="w-full px-5 py-3 rounded-xl bg-white text-black border border-gray-300 text-lg font-normal hover:bg-gray-50 transition-colors text-center" 
                 >
-                  <button className="w-full px-5 py-3 rounded-xl bg-white text-black border border-gray-300 text-md font-normal hover:bg-gray-50 transition-colors">
                     Sign Up
-                  </button>
-                </motion.a>
-                <motion.a
-                  href="/login"
+                  
+                </Link>
+                <Link
+                  to="/SignIn"
                   variants={navItem}
                   custom={3.5}
                   initial="hidden"
                   animate="visible"
                   onClick={() => setIsOpen(false)}
+                  className="w-full px-5 py-3 rounded-xl bg-blue-500 text-white text-lg font-normal hover:bg-blue-600 transition-colors text-center"
                 >
-                  <Link
-                    to="SignIn"
-                    className="w-full px-5 py-3 rounded-xl bg-blue-500 text-white text-md font-normal hover:bg-blue-600 transition-colors"
-                  >
                     Login
-                  </Link>
-                </motion.a>
+                  
+                </Link>
               </div>
             </div>
           </motion.div>
