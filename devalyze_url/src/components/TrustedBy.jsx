@@ -1,4 +1,5 @@
 import React from "react";
+import "../index.css"; 
 
 const logos = [
   "/logos/zapier.png",
@@ -18,7 +19,7 @@ const TrustedBy = () => {
 
   return (
     <div className="relative overflow-hidden bg-transparent py-6">
-      <div className="whitespace-nowrap animate-marquee px-4">
+      <div className="whitespace-nowrap marquee px-4">
         {repeatedLogos.map((logo, index) => (
           <img
             key={index}
