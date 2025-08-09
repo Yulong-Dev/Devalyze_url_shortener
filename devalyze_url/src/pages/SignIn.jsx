@@ -31,31 +31,31 @@ const Sign = () => {
     }
   }
 };
-const formItemVariants = {
-        hidden: { x: -20, opacity: 0 },
-        visible: {
-            x: 0,
-            opacity: 1,
-            transition: {
-                duration: 0.5,
-                ease: "easeOut"
-            }
-        }
-    };
+// const formItemVariants = {
+//         hidden: { x: -20, opacity: 0 },
+//         visible: {
+//             x: 0,
+//             opacity: 1,
+//             transition: {
+//                 duration: 0.5,
+//                 ease: "easeOut"
+//             }
+//         }
+//     };
 
-    const buttonVariants = {
-        hidden: { scale: 0.95, opacity: 0 },
-        visible: {
-            scale: 1,
-            opacity: 1,
-            transition: {
-                duration: 0.4,
-                ease: "easeOut"
-            }
-        },
-        hover: { scale: 1.05 },
-        tap: { scale: 0.98 }
-    };
+//     const buttonVariants = {
+//         hidden: { scale: 0.95, opacity: 0 },
+//         visible: {
+//             scale: 1,
+//             opacity: 1,
+//             transition: {
+//                 duration: 0.4,
+//                 ease: "easeOut"
+//             }
+//         },
+//         hover: { scale: 1.05 },
+//         tap: { scale: 0.98 }
+//     };
 
     const containerVariants = {
   hidden: { opacity: 0 },
@@ -155,7 +155,7 @@ const googleButtonVariants = {
                                 }}
                                 type="email" 
                                 placeholder="Your email address" 
-                                className="w-[100%] outline-none bg-transparent border-2 py-2 px-3 rounded-xl border-[#dedee0] transition-colors" 
+                                className="w-[100%] outline-none bg-transparent border-2 py-2.5 px-3 rounded-xl border-[#dedee0] transition-colors" 
                             />
                         </motion.div>
 
@@ -172,7 +172,7 @@ const googleButtonVariants = {
                                 }}
                                 type='password' 
                                 placeholder="Your password" 
-                                className="w-full outline-none bg-transparent border-2 py-2 px-3 rounded-xl border-[#dedee0] transition-colors" 
+                                className="w-full outline-none bg-transparent border-2 py-2.5 px-3 rounded-xl border-[#dedee0] transition-colors" 
                             />
                         </motion.div>
 
@@ -182,7 +182,7 @@ const googleButtonVariants = {
                             whileHover="hover"
                             whileTap="tap"
                             type="submit"
-                            className='mt-2 w-full bg-[#2A27C9] text-white py-2 rounded-xl font-semibold cursor-pointer transition-colors'
+                            className='mt-2 w-full bg-[var(--Primary-500,#4E61F6)] text-white text-lg font-medium py-3 rounded-xl  cursor-pointer transition-colors'
                         >
                             Continue
                         </motion.button>
@@ -192,9 +192,9 @@ const googleButtonVariants = {
                             className='flex items-center gap-2 place-self-center text-[#9b9b9b] text-md font-medium font-geist mt-3'
                             variants={itemVariants}
                         >
-                            <motion.hr className='w-45' initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} />
+                            <motion.hr className='w-30 ' initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} />
                             OR 
-                            <motion.hr className='w-45' initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} />
+                            <motion.hr className='w-30 ' initial={{ scaleX: 0 }} animate={{ scaleX: 1 }} />
                         </motion.div>
 
                         {/* Google button remains exactly the same */}
@@ -218,7 +218,7 @@ const googleButtonVariants = {
     </clipPath>
   </defs>
 </svg>
-                            <p className='text-[#1e1f27] font-geist text-lg font-semibold'>Continue with Google</p>
+                            <p className='text-[#1e1f27] font-geist text-lg font-medium'>Continue with Google</p>
                         </motion.button>
 
                         {/* Sign up link remains exactly the same */}
