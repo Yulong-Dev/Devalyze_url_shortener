@@ -177,15 +177,16 @@ const googleButtonVariants = {
                         </motion.div>
 
                         {/* All buttons remain exactly the same */}
-                        <motion.button
+                        <Link
+                            to="/dashboard"
                             variants={linkVariants}
                             whileHover="hover"
                             whileTap="tap"
                             type="submit"
-                            className='mt-2 w-full bg-[var(--Primary-500,#4E61F6)] text-white text-lg font-medium py-3 rounded-xl  cursor-pointer transition-colors'
+                            className='mt-2 w-full bg-[var(--Primary-500,#4E61F6)] text-white text-lg font-medium py-3 rounded-xl  cursor-pointer transition-colors text-center'
                         >
                             Continue
-                        </motion.button>
+                        </Link>
 
                         {/* Divider remains exactly the same */}
                         <motion.div 
