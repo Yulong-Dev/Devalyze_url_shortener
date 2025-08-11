@@ -169,10 +169,10 @@ const googleButtonVariants = {
                             transition={{ type: "spring", stiffness: 200 }}
                         />
                         <motion.p 
-                            className='text-black font-instrument tracking-wider text-xl lg:text-2xl font-bold'
+                            className='text-black font-instrument text-xl lg:text-2xl font-bold'
                             variants={itemVariants}
                         >
-                            Login to Devalyze
+                            Sign up to Devalyze
                         </motion.p>
                     </motion.div>
 
