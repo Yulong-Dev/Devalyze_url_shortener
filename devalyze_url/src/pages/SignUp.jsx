@@ -4,10 +4,49 @@ import phone from "/public/logos/phone1.png";
 import { motion } from 'framer-motion';
 import signup from "/public/logos/signup.png"
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
+import { useNavigate } from "react-router-dom";
 
-const Create = () => {
+
+const SignUp = () => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const res = await fetch("https://devalyze-url-shortener.onrender.com/api/auth/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fullName, // from your state
+        email,    // from your state
+        password, // from your state
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.message || "Signup failed");
+    }
+
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user));
+
+    navigate("/dashboard");
+
+  } catch (err) {
+    console.error(err);
+    alert(err.message);
+  }
+};
+
+
+
+
     // All your existing animation variants remain exactly the same
     // ... (keep all your existing variants) ...
+
        const imageVariants = {
   hidden: { 
     opacity: 0,
@@ -146,6 +185,7 @@ const googleButtonVariants = {
                         <motion.div 
                             variants={itemVariants}
                             className='flex flex-col px-1 gap-3'
+                            onSubmit={handleSubmit}
                         >
                             <label className='font-geist text-black text-lg font-medium tracking-wide'>Fullname</label>
                             <motion.input 
@@ -155,7 +195,7 @@ const googleButtonVariants = {
                                     boxShadow: "0 0 0 2px rgba(42, 39, 201, 0.1)"
                                 }}
                                 type="text" 
-                                placeholder="Your Fullname" 
+                                placeholder="Your Surname First" 
                                 className="w-[100%] outline-none bg-transparent border-2 py-2.5 px-3 rounded-xl border-[#dedee0] transition-colors" 
                             />
                         </motion.div>
@@ -278,4 +318,4 @@ const googleButtonVariants = {
     );
 }
 
-export default Create;
+export default SignUp;
