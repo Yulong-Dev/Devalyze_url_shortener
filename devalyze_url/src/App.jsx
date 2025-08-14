@@ -1,6 +1,7 @@
 import React from "react";
 import "./index.css";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
 import Home from './pages/Home';
 import SignIn from './pages/SignIn';
@@ -23,6 +24,7 @@ function App() {
         
         </Route>
       </Routes>
+      <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
     </Router>
   );
 }
