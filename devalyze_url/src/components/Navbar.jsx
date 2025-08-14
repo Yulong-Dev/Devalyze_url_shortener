@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { CgMenuLeft } from "react-icons/cg";
 import { MdClose } from "react-icons/md";
 import { LazyLoadImage } from "react-lazy-load-image-component";
@@ -210,7 +210,7 @@ export default function Navbar() {
               {/* Mobile Auth Buttons */}
               <div className="flex flex-col p-1 gap-4 mt-4 min-h w-full" >
                 <Link
-                  href="/signUp"
+                  href="signUp"
                   variants={navItem}
                   custom={3}
                   initial="hidden"
