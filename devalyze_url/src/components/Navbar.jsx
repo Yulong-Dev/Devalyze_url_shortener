@@ -210,7 +210,7 @@ export default function Navbar() {
               {/* Mobile Auth Buttons */}
               <div className="flex flex-col p-1 gap-4 mt-4 min-h w-full" >
                 <Link
-                  href="/signup"
+                  to="/SignUp"
                   variants={navItem}
                   custom={3}
                   initial="hidden"
