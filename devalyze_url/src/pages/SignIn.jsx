@@ -5,8 +5,6 @@ import { motion } from 'framer-motion';
 import { LazyLoadComponent } from 'react-lazy-load-image-component';
 
 const Sign = () => {
-    // All your existing animation variants remain exactly the same
-    // ... (keep all your existing variants) ...
        const imageVariants = {
   hidden: { 
     opacity: 0,
@@ -31,31 +29,6 @@ const Sign = () => {
     }
   }
 };
-// const formItemVariants = {
-//         hidden: { x: -20, opacity: 0 },
-//         visible: {
-//             x: 0,
-//             opacity: 1,
-//             transition: {
-//                 duration: 0.5,
-//                 ease: "easeOut"
-//             }
-//         }
-//     };
-
-//     const buttonVariants = {
-//         hidden: { scale: 0.95, opacity: 0 },
-//         visible: {
-//             scale: 1,
-//             opacity: 1,
-//             transition: {
-//                 duration: 0.4,
-//                 ease: "easeOut"
-//             }
-//         },
-//         hover: { scale: 1.05 },
-//         tap: { scale: 0.98 }
-//     };
 
     const containerVariants = {
   hidden: { opacity: 0 },
