@@ -4,12 +4,13 @@ import logo from "/public/logos/devalyse.png";
 import phone from "/public/logos/phone1.png";
 import { motion } from "framer-motion";
 import signup from "/public/logos/signup.png";
-
+import { Eye, EyeOff } from "lucide-react";
 
 const SignUp = () => {
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // Change this based on environment
@@ -233,7 +234,7 @@ const SignUp = () => {
 
             <motion.div
               variants={itemVariants}
-              className="flex flex-col px-1 gap-3"
+              className="flex flex-col px-1 gap-3 relative"
             >
               <label className="font-link text-lg font-medium">Password</label>
               <motion.input
@@ -248,6 +249,13 @@ const SignUp = () => {
                 value={password} // ✅ Controlled input
                 onChange={(e) => setPassword(e.target.value)} // ✅ Update stat
               />
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-[74%] transform -translate-y-1/2 text-sm text-gray-500 hover:text-gray-700"
+              >
+                {showPassword ? <EyeOff /> : <Eye />}
+              </button>
             </motion.div>
 
             {/* All buttons remain exactly the same */}

@@ -25,8 +25,7 @@ const Footer = () => {
           </p>
           <div className="flex justify-center sm:justify-start gap-4 text-xl">
             <div className="bg-white text-indigo-900 p-1 rounded-full">
-              <Link to="dashboard">
-              <FaFacebookF /></Link>
+              <FaFacebookF />
             </div>
             <div className="bg-white text-indigo-900 p-1 rounded-full">
               <FaTwitter />
