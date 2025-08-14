@@ -6,6 +6,8 @@ import phone from "/public/logos/phone1.png";
 import { motion } from "framer-motion";
 import signup from "/public/logos/signup.png";
 import { Eye, EyeOff } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const [fullName, setFullName] = useState("");
@@ -13,6 +15,7 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   // Change this based on environment
   const API_BASE_URL =
@@ -34,20 +37,26 @@ const SignUp = () => {
       });
 
       const data = await res.json();
+
       if (!res.ok) {
-        alert(data.message || "Error creating account");
+        toast.error(data.message || "❌ Error creating account");
         setLoading(false);
         return;
       }
 
-      // Save token to localStorage
+      // Save token & user info
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
 
-      // Redirect to dashboard
-      window.location.href = "/dashboard";
+      // ✅ Show personalized welcome toast
+      toast.success(`🎉 Welcome, ${fullName}! Your account has been created.`);
+
+      // Wait 1.5s so the user sees the message, then go to dashboard
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1500);
     } catch (err) {
-      alert("Something went wrong. Please try again.");
+      toast.error("❌ Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -244,7 +253,7 @@ const SignUp = () => {
                   borderColor: "#2A27C9",
                   boxShadow: "0 0 0 2px rgba(42, 39, 201, 0.1)",
                 }}
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="Your password"
                 className="w-full outline-none bg-transparent border-2 py-2.5 px-3 rounded-xl border-[#dedee0] transition-colors"
                 value={password} // ✅ Controlled input
