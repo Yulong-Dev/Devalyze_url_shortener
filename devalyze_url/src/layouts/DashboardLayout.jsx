@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, Outlet } from "react-router-dom";
+import axios from "axios"; 
 import {
   Menu,
   PanelTop,
@@ -50,6 +51,35 @@ const navLinks2 = [
 
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false); // closed by default on mobile
+  const [user, setUser] = useState(null);
+
+  const API_BASE_URL =
+  import.meta.env.MODE === "development"
+    ? "http://localhost:5000" // Local backend
+    : "https://devalyze-url-shortener.onrender.com"; // Render backend
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        const res = await axios.get(`${API_BASE_URL}/api/users/me`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUser(res.data);
+      } catch (err) {
+        console.error("Failed to fetch user:", err);
+      }
+    };
+
+    fetchUser();
+  }, []);
+
 
   // Time & Greeting
   const date = new Date();
@@ -186,7 +216,7 @@ const DashboardLayout = () => {
           <div className="greeting-container flex gap-2 ">
             {icon}
             <div className="flex flex-col text-start ">
-              <h2 className="text-md font-bold">{greeting}, JniduBen</h2>
+              <h2 className="text-md font-bold">{greeting},  {user ? user.fullName : "Loading..."}</h2>
               <p className="text-gray-500 text-xs ">{formattedDate}</p>
             </div>
           </div>
