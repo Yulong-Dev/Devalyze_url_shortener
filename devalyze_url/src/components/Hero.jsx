@@ -214,12 +214,12 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="flex flex-col py-10 gap-3 h- w-full  text-center bg-gray-100">
+      <div className="flex flex-col py-10 gap-4 h- w-full  text-center bg-gray-100">
         <p>
           Trusted by 200,000+ users in 130+ countries to simplify sharing and
           expand their reach.
         </p>
-        <TrustedBy className="sm:w-[80%]" />
+        <TrustedBy className="sm:w-[80%] " />
       </div>
     </main>
   );

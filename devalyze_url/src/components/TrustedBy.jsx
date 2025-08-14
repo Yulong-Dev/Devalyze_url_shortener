@@ -14,11 +14,15 @@ const logos = [
 ];
 
 const TrustedBy = () => {
-  // Duplicate the logos to create a seamless scrolling effect
   const repeatedLogos = [...logos, ...logos];
 
   return (
-    <div className="relative overflow-hidden bg-transparent py-6">
+    <div className="relative overflow-hidden bg-gray-100 py-6 w-[50%] mx-auto">
+      {/* Left fade edge */}
+      <div className="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-gray-100 to-transparent z-10 pointer-events-none"></div>
+      {/* Right fade edge */}
+      <div className="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-gray-100 to-transparent z-10 pointer-events-none"></div>
+      
       <div className="whitespace-nowrap marquee px-4">
         {repeatedLogos.map((logo, index) => (
           <img
