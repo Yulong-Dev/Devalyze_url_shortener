@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
 import { LazyLoadComponent } from "react-lazy-load-image-component";
 
+
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
@@ -85,6 +86,7 @@ const SignIn = () => {
   //             }
   //         }
   //     };
+
 
   //     const buttonVariants = {
   //         hidden: { scale: 0.95, opacity: 0 },
