@@ -178,7 +178,7 @@ const googleButtonVariants = {
 
                         {/* All buttons remain exactly the same */}
                         <Link
-                            to="/dashboard"
+                            to=""
                             variants={linkVariants}
                             whileHover="hover"
                             whileTap="tap"
