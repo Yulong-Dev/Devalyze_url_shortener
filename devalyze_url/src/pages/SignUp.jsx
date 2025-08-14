@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "/public/logos/devalyse.png";
@@ -284,13 +285,13 @@ const SignUp = () => {
               variants={itemVariants}
             >
               <motion.hr
-                className="w-30 "
+                className="w-20 lg:w-30 "
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
               />
               OR
               <motion.hr
-                className="w-30 "
+                className="w-20 lg:w-30 "
                 initial={{ scaleX: 0 }}
                 animate={{ scaleX: 1 }}
               />
@@ -340,7 +341,7 @@ const SignUp = () => {
                   </clipPath>
                 </defs>
               </svg>
-              <p className="text-[#1e1f27] font-geist text-lg font-medium">
+              <p className="text-[#1e1f27] font-geist lg:text-lg font-medium">
                 Continue with Google
               </p>
             </motion.button>
@@ -350,7 +351,7 @@ const SignUp = () => {
               className="flex gap-1 place-self-center items-center"
               variants={itemVariants}
             >
-              <p className="text-[#aeaeae] text-center font-geist text-lg font-medium tracking-wide">
+              <p className="text-[#aeaeae] text-center font-geist lg:text-lg font-medium tracking-wide">
                 Don't have an account?
               </p>
               <Link
