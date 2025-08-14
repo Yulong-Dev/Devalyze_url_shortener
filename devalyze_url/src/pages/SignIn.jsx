@@ -5,6 +5,7 @@ import logo from "/public/logos/devalyse.png";
 import phone from "/public/logos/phone1.png";
 import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
+import { toast } from "react-toastify";
 import { LazyLoadComponent } from "react-lazy-load-image-component";
 
 
@@ -18,6 +19,8 @@ const SignIn = () => {
     import.meta.env.MODE === "development"
       ? "http://localhost:5000" // Local backend
       : "https://devalyze-url-shortener.onrender.com"; // Render backend
+
+  
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -34,18 +37,24 @@ const SignIn = () => {
       const data = await res.json();
 
       if (!res.ok) {
-        alert(data.message || "Login failed");
+        toast.error(data.message || "❌ Login failed");
         return;
       }
 
-      // Save token to localStorage
+      // Save token & user info
       localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
 
-      // Redirect to dashboard
-      navigate("/dashboard");
+      // ✅ Show personalized welcome toast
+      toast.success(`👋 Welcome back, ${data.user.fullName || "User"}!`);
+
+      // Wait so the toast is visible before redirecting
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 1200);
     } catch (err) {
       console.error(err);
-      alert("Something went wrong, please try again later.");
+      toast.error("❌ Something went wrong, please try again later.");
     }
   };
 
@@ -231,7 +240,7 @@ const SignIn = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-[74%] transform -translate-y-1/2 text-sm text-gray-500 hover:text-gray-700"
               >
-                {showPassword ? <EyeOff/> : <Eye />}
+                {showPassword ? <EyeOff /> : <Eye />}
               </button>
             </motion.div>
 
