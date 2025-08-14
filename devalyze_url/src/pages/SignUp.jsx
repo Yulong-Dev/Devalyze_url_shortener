@@ -163,7 +163,7 @@ const SignUp = () => {
     <div className="text-black flex flex-col lg:flex-row min-h-screen">
       {/* Left Panel - Form Section */}
       <motion.div
-        className="bg-[#EDEFFE] w-full lg:w-[60%] flex flex-col items-center justify-center gap-10 py-10 lg:py-0 p-1"
+        className="bg-[#EDEFFE] w-full lg:w-[50%] flex flex-col items-center justify-center gap-10 py-10 lg:py-0 p-1"
         initial="hidden"
         animate="visible"
         variants={containerVariants}
@@ -377,7 +377,7 @@ const SignUp = () => {
       </motion.div>
 
       {/* Right Panel - Image Section (hidden on mobile) */}
-      <div className="hidden lg:block w-[40%] overflow-hidden ">
+      <div className="hidden lg:block w-[50%] overflow-hidden ">
         <motion.img
           src={signup}
           alt="Phone"

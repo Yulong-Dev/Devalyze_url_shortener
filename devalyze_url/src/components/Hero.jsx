@@ -145,26 +145,26 @@ export default function Hero() {
         <div className="absolute top-2 left-2 md:top-8 md:left-8 w-full h-full bg-blue-950 rounded-2xl z-0"></div>
 
         <div className="flex flex-col gap-5 relative w-full bg-white rounded-2xl shadow-md z-10 px-5 sm:px-15 py-5">
-          <h2 className="text-3xl">
+          <h2 className="text-3xl text-[#1a1a1a] font-instrument font-semibold">
             {activeTab === "short"
               ? "Shorten a long link"
               : "Generate a QR code"}
           </h2>
-          <p className="text-xs">No credit card required</p>
-          <h3>Paste your long link here</h3>
+          <p className="text-xs text-[#031f39] font-Inter">No credit card required</p>
+          <h3 className='text-[#131927] font-instrument text-sm font-semibold '>Paste your long link here</h3>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-2">
+          <form onSubmit={handleSubmit} className="flex flex-col gap-3">
             <input
               type="text"
               value={longUrl}
               onChange={(e) => setLongUrl(e.target.value)}
-              placeholder="Enter your long URL"
+              placeholder="https://example.com/my-long-url"
               className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500"
             />
             <button
               type="submit"
               disabled={loading}
-              className={`w-41 px-5 py-3 rounded-xl bg-blue-950 text-white text-xs ${
+              className={`w-41 px-5 py-3.5 rounded-xl bg-[#212967] text-white text-xs font-Inter ${
                 loading
                   ? "opacity-50 cursor-not-allowed"
                   : "hover:bg-blue-800 transition"
@@ -214,12 +214,12 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="flex flex-col py-10 gap-3 h- w-full  text-center bg-gray-100">
+      <div className="flex flex-col py-10 gap-4 h- w-full  text-center bg-gray-100">
         <p>
           Trusted by 200,000+ users in 130+ countries to simplify sharing and
           expand their reach.
         </p>
-        <TrustedBy className="sm:w-[80%]" />
+        <TrustedBy className="sm:w-[80%] " />
       </div>
     </main>
   );
