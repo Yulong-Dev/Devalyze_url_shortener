@@ -49,11 +49,11 @@ const SignUp = () => {
       localStorage.setItem("user", JSON.stringify(data.user));
 
       // ✅ Show personalized welcome toast
-      toast.success(`🎉 Welcome, ${fullName}! Your account has been created.`);
+      toast.success(`🎉${fullName}! Your account has been created.`);
 
-      // Wait 1.5s so the user sees the message, then go to dashboard
+      // Wait 1.5s so the user sees the message, then go to signin page
       setTimeout(() => {
-        navigate("/dashboard");
+        navigate("/SignIn");
       }, 1500);
     } catch (err) {
       toast.error("❌ Something went wrong. Please try again.");
