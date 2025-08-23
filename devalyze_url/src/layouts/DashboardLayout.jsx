@@ -312,7 +312,6 @@ const DashboardLayout = () => {
 
             <div className="flex items-center gap-3">
               <UserAvatar fullName={user?.fullName || "Guest User"} />
-              <span className="font-medium">{user?.fullName}</span>
             </div>
           </div>
         </div>
