@@ -311,7 +311,7 @@ const DashboardLayout = () => {
             <HelpCircle size={25} className="hidden md:flex" />
 
             <div className="flex items-center gap-3">
-              <UserAvatar fullName={user?.fullName || "Guest User"} />
+              <UserAvatar />
               <span className="font-medium">{user?.fullName}</span>
             </div>
           </div>
