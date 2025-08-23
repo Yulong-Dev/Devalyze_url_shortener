@@ -19,7 +19,7 @@ const SignIn = () => {
   const API_BASE_URL =
     import.meta.env.MODE === "development"
       ? "http://localhost:5000" // Local backend
-      : "https://devalyze-url-shortener.onrender.com"; // Render backend
+      : "https://devalyze.onrender.com"; // Render backend
 
   
 
