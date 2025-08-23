@@ -39,7 +39,7 @@ export default function Hero() {
       const endpoint = activeTab === "short" ? "shorten" : "qr";
 
       const res = await fetch(
-        `https://devalyze-url-shortener.onrender.com/${endpoint}`,
+        `https://dvilz.onrender.com/${endpoint}`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
