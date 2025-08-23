@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(cors({
-  origin: "https://devalyze-url-shortener.vercel.app", // frontend URL
+  origin: "https://devalyze.vercel.app", // frontend URL
   methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true,
 }));
