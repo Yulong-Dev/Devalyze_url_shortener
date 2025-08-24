@@ -98,7 +98,7 @@ const More = () => {
           </svg>
         </div>
         <p className="text-[#031f39] font-instrument text-sm/6 text-left">
-          Deanalyze is a powerful URL shortening solution built to help you create clean, trackable, and branded links that drive engagement. From simplifying long URLs to providing real-time click analytics, Deanalyse makes it easy to share smarter and connect faster all from one intuitive platform.
+          Devalyze is a powerful URL shortening solution built to help you create clean, trackable, and branded links that drive engagement. From simplifying long URLs to providing real-time click analytics, Devalyze makes it easy to share smarter and connect faster all from one intuitive platform.
         </p>
       </div>
     </motion.div>
@@ -239,7 +239,7 @@ const More = () => {
           </svg>
         </div>
         <p className="text-[#031f39] font-instrument text-sm/6 text-left">
-          Deanalyse is a smart QR code solution built to help you create dynamic, scannable, and branded codes that boost interaction. From linking offline materials to tracking real-time scans, Deanalyse makes it easy to connect your audience and measure results all from one seamless platform.
+          Devalyze is a smart QR code solution built to help you create dynamic, scannable, and branded codes that boost interaction. From linking offline materials to tracking real-time scans, Devalyze makes it easy to connect your audience and measure results all from one seamless platform.
         </p>
       </div>
     </motion.div>

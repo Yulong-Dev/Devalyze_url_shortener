@@ -10,22 +10,22 @@ const faqs = [
   {
     question: "How Do I Shorten A Link?",
     answer:
-      "Just paste your long URL into the input box on Devalyse, click the “Shorten” button, and your clean, short link will be ready to use.",
+      "Just paste your long URL into the input box on Devalyze, click the “Shorten” button, and your clean, short link will be ready to use.",
   },
   {
     question: "Can I Create QR Codes Too??",
     answer:
-      "Yes! Devalyse lets you instantly turn any link into a scannable QR code that you can download and use anywhere — online or offline.",
+      "Yes! Devalyze lets you instantly turn any link into a scannable QR code that you can download and use anywhere — online or offline.",
   },
   {
-    question: "Do I Need An Account To Use Devalyse?",
+    question: "Do I Need An Account To Use Devalyze?",
     answer:
       "Yes! Devalyse gives you real-time insights like number of clicks, scans, location, and more all in your dashboard.",
   },
   {
     question: "Can I Customize My Short Links?",
     answer:
-      "Yes!, you can change the end of your links (e.g., devalyse.me/yourname) to match your brand or campaign.",
+      "Yes!, you can change the end of your links (e.g., devalyze.me/yourname) to match your brand or campaign.",
   },
 ];
 

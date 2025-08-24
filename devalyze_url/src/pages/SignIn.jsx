@@ -8,12 +8,13 @@ import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
 import { LazyLoadComponent } from "react-lazy-load-image-component";
-
+import { set } from "mongoose";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const API_BASE_URL =
@@ -21,10 +22,9 @@ const SignIn = () => {
       ? "http://localhost:5000" // Local backend
       : "https://dvilz.onrender.com"; // Render backend
 
-  
-
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
     try {
       const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
@@ -39,6 +39,7 @@ const SignIn = () => {
 
       if (!res.ok) {
         toast.error(data.message || "❌ Login failed");
+        setLoading(false);
         return;
       }
 
@@ -56,6 +57,8 @@ const SignIn = () => {
     } catch (err) {
       console.error(err);
       toast.error("❌ Something went wrong, please try again later.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -96,7 +99,6 @@ const SignIn = () => {
   //             }
   //         }
   //     };
-
 
   //     const buttonVariants = {
   //         hidden: { scale: 0.95, opacity: 0 },
@@ -251,9 +253,42 @@ const SignIn = () => {
               whileHover="hover"
               whileTap="tap"
               type="submit"
-              className="mt-2 w-full bg-[var(--Primary-500,#4E61F6)] text-white text-lg font-medium py-3 rounded-xl  cursor-pointer transition-colors text-center"
+              disabled={loading}
+              className={`mt-2 w-full text-white text-lg font-medium py-3 rounded-xl cursor-pointer transition-colors text-center 
+    ${
+      loading
+        ? "bg-blue-400 cursor-not-allowed"
+        : "bg-[var(--Primary-500,#4E61F6)] hover:bg-blue-700"
+    }`}
             >
-              Continue
+              {loading ? (
+                <div className="flex items-center justify-center">
+                  <svg
+                    className="animate-spin h-5 w-5 mr-2 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                    ></path>
+                  </svg>
+                  {/** Text while loading */}
+                  Logging in...
+                </div>
+              ) : (
+                "Continue"
+              )}
             </motion.button>
 
             {/* Divider remains exactly the same */}
