@@ -135,36 +135,43 @@ const DashboardLayout = () => {
   });
 
   // Avatar component
-  const UserAvatar = ({ fullName }) => {
-    if (!fullName) return null;
+const UserAvatar = ({ fullName }) => {
+  if (!fullName) return null;
 
-    const parts = fullName.trim().split(" ");
-    const initials =
-      parts.length >= 2
-        ? parts[0][0].toUpperCase() + parts[1][0].toUpperCase()
-        : parts[0][0].toUpperCase();
+  const parts = fullName.trim().split(" ");
 
-    const bgColor = getRandomColor(fullName);
+  let initials = "";
+  if (parts.length >= 2) {
+    const surname = parts[0];       // always first word (surname)
+    const firstName = parts[1];     // always second word (first name)
+    initials =
+      firstName[0].toUpperCase() + surname[0].toUpperCase();
+  } else {
+    initials = parts[0][0].toUpperCase(); // fallback if only one name
+  }
 
-    return (
-      <div
-        style={{
-          backgroundColor: bgColor,
-          width: "40px",
-          height: "40px",
-          borderRadius: "50%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: "#fff",
-          fontWeight: "bold",
-          fontSize: "16px",
-        }}
-      >
-        {initials}
-      </div>
-    );
-  };
+  const bgColor = getRandomColor(fullName);
+
+  return (
+    <div
+      style={{
+        backgroundColor: bgColor,
+        width: "40px",
+        height: "40px",
+        borderRadius: "50%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "#fff",
+        fontWeight: "bold",
+        fontSize: "16px",
+      }}
+    >
+      {initials}
+    </div>
+  );
+};
+
 
   return (
     <div className="flex h-screen relative">

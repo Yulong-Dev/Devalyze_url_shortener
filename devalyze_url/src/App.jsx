@@ -9,6 +9,7 @@ import SignUp from './pages/SignUp';
 import DashboardLayout from "./layouts/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
 import Linkspage from "./pages/Linkspage";
+import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
         <Route path="/SignIn" element={<SignIn />} />
         <Route path="/SignUp" element={<SignUp />} />
 
-        <Route path="/dashboard" element={<DashboardLayout />}>
+        <Route path="/dashboard" element={ <PrivateRoute> <DashboardLayout /> </PrivateRoute> }>
           <Route index element={<Dashboard />} />
           <Route path="links" element={<Linkspage />} />
         

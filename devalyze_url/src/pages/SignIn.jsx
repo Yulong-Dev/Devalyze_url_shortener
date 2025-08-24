@@ -7,6 +7,7 @@ import phone from "/public/logos/phone1.png";
 import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
+import { jwtDecode } from "jwt-decode";
 import { LazyLoadComponent } from "react-lazy-load-image-component";
 
 const SignIn = () => {
@@ -45,6 +46,12 @@ const SignIn = () => {
       // Save token & user info
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
+
+      // ✅ Decode JWT to get expiration time
+      const decoded = jwtDecode(data.token);
+      if (decoded.exp) {
+        localStorage.setItem("token_exp", decoded.exp * 1000);
+      }
 
       // ✅ Show personalized welcome toast
       toast.success(`👋 Welcome back, ${data.user.fullName || "User"}!`);
