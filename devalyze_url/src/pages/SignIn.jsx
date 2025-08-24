@@ -8,7 +8,6 @@ import { motion } from "framer-motion";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
 import { LazyLoadComponent } from "react-lazy-load-image-component";
-import { set } from "mongoose";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
