@@ -174,10 +174,10 @@ const UserAvatar = ({ fullName }) => {
 
 
   return (
-    <div className="flex h-screen relative">
+    <div className="flex h-auto relative">
       {/* Sidebar */}
       <div
-        className={`flex flex-col bg-gray-50 text-black justify-between shadow-2xl w-64  py-7 h-full fixed md:static z-50 transform transition-transform duration-300
+        className={`flex flex-col bg-gray-50 text-black justify-between shadow-2xl w-64  py-7 min-h-screen fixed md:static z-50 transform transition-transform duration-300
         ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0`}
