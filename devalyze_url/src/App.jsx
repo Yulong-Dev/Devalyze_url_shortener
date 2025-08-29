@@ -8,7 +8,7 @@ import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
-import Linkspage from "./pages/LinksPage";
+import LinksPage from "./pages/Linkspage.jsx";
 import PrivateRoute from "./components/PrivateRoute";
 
 function App() {
@@ -28,7 +28,7 @@ function App() {
           }
         >
           <Route index element={<Dashboard />} />
-          <Route path="links" element={<Linkspage />} />
+          <Route path="links" element={<LinksPage />} />
         </Route>
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
