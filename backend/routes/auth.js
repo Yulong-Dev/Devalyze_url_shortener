@@ -33,7 +33,7 @@ router.post("/register", async (req, res) => {
       password: hashedPassword,
     });
 
-    await newUser.save();
+    await newUser.save();``
 
     // 🔑 Generate JWT Token
     const token = jwt.sign(
