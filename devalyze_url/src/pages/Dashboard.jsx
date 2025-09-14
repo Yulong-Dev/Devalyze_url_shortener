@@ -15,7 +15,7 @@ const Dashboard = () => {
   const COLORS = ["#3b82f6", "#22c55e", "#f59e0b", "#ec4899", "#6366f1"];
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-6 p-6">
+    <div className="bg-gray-100 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 2xl:grid-cols-2 gap-6 p-6">
       
       {/* Latest Links */}
       <Card>

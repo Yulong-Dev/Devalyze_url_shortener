@@ -21,14 +21,14 @@ app.use(cors({
     "http://localhost:5173",   // for local dev
     "https://devalyze.vercel.app" // production frontend
   ],
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
   credentials: true,
 }));
 app.use(express.json());
 
 // Routes
 app.use("/", urlRoutes);
-app.use("/qr", qrRoutes);
+app.use("/api/qr", qrRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 
