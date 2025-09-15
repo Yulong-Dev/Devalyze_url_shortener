@@ -9,7 +9,9 @@ import SignUp from "./pages/SignUp";
 import DashboardLayout from "./layouts/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
 import LinksPage from "./pages/Linkspage.jsx";
+import QrPage from "./pages/QrPage.jsx";
 import PrivateRoute from "./components/PrivateRoute";
+import SettingsPage from "./pages/SettingsPage";
 
 function App() {
   return (
@@ -29,6 +31,8 @@ function App() {
         >
           <Route index element={<Dashboard />} />
           <Route path="links" element={<LinksPage />} />
+          <Route path="qrcodes" element={<QrPage />} />
+          <Route path="settings" element={<SettingsPage/>} />
         </Route>
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />

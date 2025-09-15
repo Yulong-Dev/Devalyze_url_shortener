@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavLink, Outlet } from "react-router-dom";
 import axios from "axios";
 import {
   Menu,
+  User,
+  LogOut,
   Plus,
   Bell,
   Search,
@@ -25,7 +27,7 @@ const navLinks = [
     path: "/dashboard",
   },
   { name: "Links", icon: <Link size={18} />, path: "/dashboard/links" },
-  { name: "QR Codes", icon: <QrCode size={18} />, path: "/dashboard/qr" },
+  { name: "QR Codes", icon: <QrCode size={18} />, path: "/dashboard/qrcodes" },
   { name: "Pages", icon: <PanelTop size={18} />, path: "/dashboard/pages" },
   {
     name: "Analytics",
@@ -55,6 +57,26 @@ const navLinks2 = [
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false); // closed by default on mobile
   const [user, setUser] = useState(null);
+  const [openProfile, setOpenProfile] = useState(false);
+  const [openCreate, setOpenCreate] = useState(false);
+
+  const profileRef = useRef(null);
+  const createRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setOpenProfile(false);
+      }
+      if (createRef.current && !createRef.current.contains(event.target)) {
+        setOpenCreate(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   // Helper: Generate random color (consistent per user)
   const getRandomColor = (name) => {
@@ -135,43 +157,41 @@ const DashboardLayout = () => {
   });
 
   // Avatar component
-const UserAvatar = ({ fullName }) => {
-  if (!fullName) return null;
+  const UserAvatar = ({ fullName }) => {
+    if (!fullName) return null;
 
-  const parts = fullName.trim().split(" ");
+    const parts = fullName.trim().split(" ");
 
-  let initials = "";
-  if (parts.length >= 2) {
-    const surname = parts[0];       // always first word (surname)
-    const firstName = parts[1];     // always second word (first name)
-    initials =
-      firstName[0].toUpperCase() + surname[0].toUpperCase();
-  } else {
-    initials = parts[0][0].toUpperCase(); // fallback if only one name
-  }
+    let initials = "";
+    if (parts.length >= 2) {
+      const surname = parts[0]; // always first word (surname)
+      const firstName = parts[1]; // always second word (first name)
+      initials = firstName[0].toUpperCase() + surname[0].toUpperCase();
+    } else {
+      initials = parts[0][0].toUpperCase(); // fallback if only one name
+    }
 
-  const bgColor = getRandomColor(fullName);
+    const bgColor = getRandomColor(fullName);
 
-  return (
-    <div
-      style={{
-        backgroundColor: bgColor,
-        width: "40px",
-        height: "40px",
-        borderRadius: "50%",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        color: "#fff",
-        fontWeight: "bold",
-        fontSize: "16px",
-      }}
-    >
-      {initials}
-    </div>
-  );
-};
-
+    return (
+      <div
+        style={{
+          backgroundColor: bgColor,
+          width: "40px",
+          height: "40px",
+          borderRadius: "50%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "#fff",
+          fontWeight: "bold",
+          fontSize: "16px",
+        }}
+      >
+        {initials}
+      </div>
+    );
+  };
 
   return (
     <div className="flex h-auto relative">
@@ -271,7 +291,7 @@ const UserAvatar = ({ fullName }) => {
       </div>
 
       {/* Main Panel */}
-      <div className="flex-1 bg-gray-50 py-3 pr-1">
+      <div className="flex-1 bg-white py-3 pr-1">
         {/* Topbar */}
         <div className="flex md:justify-between gap-8 items-center pb-3 px-3 w-full">
           {/* Mobile menu button */}
@@ -288,14 +308,47 @@ const UserAvatar = ({ fullName }) => {
               <h2 className="text-[13px] md:text-md font-bold">
                 {greeting}, {user ? user.fullName : "Loading..."}
               </h2>
-              <p className="text-gray-500 text-[10px] md:text-xs ">{formattedDate}</p>
+              <p className="text-gray-500 text-[10px] md:text-xs ">
+                {formattedDate}
+              </p>
             </div>
           </div>
 
           <div className="flex items-center gap-6">
-            <button className="hidden md:flex items-center bg-[#4E61F6] text-white gap-1 px-4 py-2 rounded-md text-md">
-              <Plus size={21} /> Create new
-            </button>
+            <div className="relative hidden md:flex " ref={createRef}>
+              <button
+                onClick={() => setOpenCreate(!openCreate)}
+                className="bg-blue-600 text-white px-5 py-2 cursor-pointer rounded-lg flex items-center gap-2 font-semibold shadow-lg"
+              >
+                <Plus/> Create new
+              </button>
+
+              {openCreate && (
+                <div className="absolute top-12 w-60 bg-white rounded-xl shadow-lg z-50">
+                  <ul className="p-2 space-y-1">
+                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-100 cursor-pointer">
+                      <span className="flex items-center gap-2">
+                        <Link size={17} /> Link
+                      </span>
+                      <span className="text-xs text-gray-400">⌘ + L</span>
+                    </li>
+                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-100 cursor-pointer">
+                      <span className="flex items-center gap-2">
+                        <QrCode size={17} /> QR Code
+                      </span>
+                      <span className="text-xs text-gray-400">⌘ + G</span>
+                    </li>
+                    <li className="flex items-center justify-between p-2 rounded-lg hover:bg-gray-100 cursor-pointer">
+                      <span className="flex items-center gap-2">
+                        <PanelTop size={17} /> Link Page
+                      </span>
+                      <span className="text-xs text-gray-400">⌘ + P</span>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
+
             {/* For large/normal screens */}
             <div className="hidden md:flex items-center relative">
               <input
@@ -317,8 +370,49 @@ const UserAvatar = ({ fullName }) => {
             <Bell size={25} className="hidden md:flex" />
             <HelpCircle size={25} className="hidden md:flex" />
 
-            <div className="flex items-center gap-3">
-              <UserAvatar fullName={user?.fullName || "Guest User"} />
+            <div className="relative " ref={profileRef}>
+              <button
+                onClick={() => setOpenProfile(!openProfile)}
+                className="w-10 h-10 cursor-pointer rounded-full bg-yellow-400 flex items-center justify-center font-bold text-white"
+              >
+                <UserAvatar fullName={user?.fullName || "Guest User"} />
+              </button>
+
+              {openProfile && (
+                <div className="absolute top-0 right-0  w-auto bg-white rounded-2xl shadow-lg p-4 z-50">
+                  <div className="flex items-center gap-7 border-b pb-3">
+                    <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-yellow-400 flex items-center justify-center font-bold text-white">
+                      <UserAvatar fullName={user?.fullName || "Guest User"} />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-sm flex w-auto">
+                        {user ? user.fullName : "Loading..."}
+                      </p>
+                    </div>
+                    </div>
+                    <button className="ml-auto bg-blue-900 text-white px-3 py-1 rounded-lg text-xs">
+                      Upgrade
+                    </button>
+                  </div>
+
+                  <ul className="mt-3 space-y-2">
+                    <li className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer">
+                      <User /> My profile
+                    </li>
+                    <li className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer">
+                      <Bell /> Notifications
+                    </li>
+                    <li className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer">
+                      <Settings /> Settings
+                    </li>
+                    <hr className="border-t-1 border-gray-300"/>
+                    <li className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100    cursor-pointer text-red-500">
+                      <LogOut /> Sign out
+                    </li>
+                  </ul>
+                </div>
+              )}
             </div>
           </div>
         </div>

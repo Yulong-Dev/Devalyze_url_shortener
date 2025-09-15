@@ -49,7 +49,7 @@ const SignUp = () => {
       localStorage.setItem("user", JSON.stringify(data.user));
 
       // ✅ Show personalized welcome toast
-      toast.success(`🎉${fullName}! Your account has been created.`);
+      toast.success(`🎉${fullName}! Your account has been created, Login In.`);
 
       // Wait 1.5s so the user sees the message, then go to signin page
       setTimeout(() => {
@@ -215,7 +215,7 @@ const SignUp = () => {
                   boxShadow: "0 0 0 2px rgba(42, 39, 201, 0.1)",
                 }}
                 type="text"
-                placeholder="Your Surname First"
+                placeholder="Your surname first"
                 className="w-[100%] outline-none bg-transparent border-2 py-2.5 px-3 rounded-xl border-[#dedee0] transition-colors"
                 value={fullName} // ✅ Controlled input
                 onChange={(e) => setFullName(e.target.value)} // ✅ Update state
