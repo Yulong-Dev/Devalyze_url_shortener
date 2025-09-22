@@ -145,135 +145,152 @@ const SettingsPage = () => {
   };
 
   return (
-    <div className="p-6 bg-white shadow">
-      <h2 className="text-2xl font-semibold mb-6">Settings</h2>
-
-      <form onSubmit={handleSave} className="space-y-6">
-        {/* Full Name */}
-        <div>
-          <label className="block text-sm font-medium mb-2">Full Name</label>
-          <input
-            type="text"
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-            className="w-full border rounded-lg px-4 py-2"
-          />
+    <div className="bg-gray-100 p-6 min-h-screen">
+      <div className="bg-white  rounded-lg shadow">
+        <div className="content-center border-b border-gray-100 h-12 px-6 ">
+          <h2 className="text-2xl font-semibold  ">Settings</h2>
         </div>
+        <div className="p-6">
+          <form onSubmit={handleSave} className="space-y-6">
+            {/* Full Name */}
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Full Name
+              </label>
+              <input
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                className="w-full bg-gray-100 border rounded-lg px-4 py-2"
+              />
+            </div>
 
-        {/* Surname */}
-        <div>
-          <label className="block text-sm font-medium mb-2">Surname</label>
-          <input
-            type="text"
-            value={surname}
-            onChange={(e) => setSurname(e.target.value)}
-            className="w-full border rounded-lg px-4 py-2"
-          />
-        </div>
+            {/* Surname */}
+            <div>
+              <label className="block text-sm font-medium mb-2">Surname</label>
+              <input
+                type="text"
+                value={surname}
+                onChange={(e) => setSurname(e.target.value)}
+                className="w-full border  bg-gray-100 rounded-lg px-4 py-2"
+              />
+            </div>
 
-        {/* Other Names */}
-        <div>
-          <label className="block text-sm font-medium mb-2">Other Names</label>
-          <input
-            type="text"
-            value={otherNames}
-            onChange={(e) => setOtherNames(e.target.value)}
-            className="w-full border rounded-lg px-4 py-2"
-          />
-        </div>
+            {/* Other Names */}
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Other Names
+              </label>
+              <input
+                type="text"
+                value={otherNames}
+                onChange={(e) => setOtherNames(e.target.value)}
+                className="w-full border  bg-gray-100 rounded-lg px-4 py-2"
+              />
+            </div>
 
-        {/* Language & Country */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-medium mb-2">Language</label>
-            <select
-              value={language}
-              onChange={(e) => setLanguage(e.target.value)}
-              className="w-full border rounded-lg px-4 py-2"
+            {/* Language & Country */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Language
+                </label>
+                <select
+                  value={language}
+                  onChange={(e) => setLanguage(e.target.value)}
+                  className="w-full border  bg-gray-100 rounded-lg px-4 py-2"
+                >
+                  <option value="">Select a language</option>
+                  {LANGUAGES.map((lang, idx) => (
+                    <option key={idx} value={lang}>
+                      {lang}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium mb-2">
+                  Country
+                </label>
+                <select
+                  value={country}
+                  onChange={(e) => setCountry(e.target.value)}
+                  className="w-full border  bg-gray-100 rounded-lg px-4 py-2"
+                >
+                  <option value="">Select a country</option>
+                  {COUNTRIES.map((c, idx) => (
+                    <option key={idx} value={c}>
+                      {c}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Email (disabled) */}
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Email Address
+              </label>
+              <input
+                type="email"
+                value={email}
+                disabled
+                className="w-full border rounded-lg px-4 py-2 bg-gray-100 cursor-not-allowed"
+              />
+              <p className="text-xs text-red-500 mt-1">
+                ⚠️ Email cannot be changed for security reasons
+              </p>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-medium disabled:opacity-50"
             >
-              <option value="">Select a language</option>
-              {LANGUAGES.map((lang, idx) => (
-                <option key={idx} value={lang}>
-                  {lang}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-2">Country</label>
-            <select
-              value={country}
-              onChange={(e) => setCountry(e.target.value)}
-              className="w-full border rounded-lg px-4 py-2"
-            >
-              <option value="">Select a country</option>
-              {COUNTRIES.map((c, idx) => (
-                <option key={idx} value={c}>
-                  {c}
-                </option>
-              ))}
-            </select>
-          </div>
-        </div>
+              {loading ? "Saving..." : "Save Changes"}
+            </button>
+          </form>
 
-        {/* Email (disabled) */}
-        <div>
-          <label className="block text-sm font-medium mb-2">Email Address</label>
-          <input
-            type="email"
-            value={email}
-            disabled
-            className="w-full border rounded-lg px-4 py-2 bg-gray-100 cursor-not-allowed"
-          />
-          <p className="text-xs text-gray-500 mt-1">
-            Email cannot be changed for security reasons
-          </p>
-        </div>
-
-        <button
-          type="submit"
-          disabled={loading}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-medium disabled:opacity-50"
-        >
-          {loading ? "Saving..." : "Save Changes"}
-        </button>
-      </form>
-
-      {/* Change Password */}
-      <h3 className="text-xl font-semibold mt-10 mb-4">Change Password</h3>
-      <form
-        onSubmit={handleChangePassword}
-        className="grid grid-cols-1 md:grid-cols-2 gap-6"
-      >
-        <div>
-          <label className="block text-sm font-medium mb-2">
-            Current Password
-          </label>
-          <input
-            type="password"
-            value={currentPassword}
-            onChange={(e) => setCurrentPassword(e.target.value)}
-            className="w-full border rounded-lg px-4 py-2"
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium mb-2">New Password</label>
-          <input
-            type="password"
-            value={newPassword}
-            onChange={(e) => setNewPassword(e.target.value)}
-            className="w-full border rounded-lg px-4 py-2"
-          />
-        </div>
-        <div className="md:col-span-2">
-          <button
-            type="submit"
-            className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-medium"
+          {/* Change Password */}
+          <h3 className="text-xl font-semibold mt-10 mb-4">Change Password</h3>
+          <form
+            onSubmit={handleChangePassword}
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
           >
-            Change Password
-          </button>
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                Current Password
+              </label>
+              <input
+                type="password"
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+                className="w-full border  bg-gray-100 rounded-lg px-4 py-2"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium mb-2">
+                New Password
+              </label>
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+                className="w-full border bg-gray-100 rounded-lg px-4 py-2"
+              />
+            </div>
+            <div className="md:col-span-2">
+              <button
+                type="submit"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg font-medium"
+              >
+                Change Password
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </div>
   );
 };
