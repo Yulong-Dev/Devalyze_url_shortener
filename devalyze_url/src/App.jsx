@@ -10,7 +10,11 @@ import DashboardLayout from "./layouts/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
 import LinksPage from "./pages/Linkspage.jsx";
 import QrPage from "./pages/QrPage.jsx";
+import Pages from "./pages/Pages";
 import PrivateRoute from "./components/PrivateRoute";
+import Analytics from "./pages/Analytics.jsx";
+import DomainPage from "./pages/Domain.jsx";
+import Support from "./pages/Support.jsx";
 import SettingsPage from "./pages/SettingsPage";
 
 function App() {
@@ -32,7 +36,12 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="links" element={<LinksPage />} />
           <Route path="qrcodes" element={<QrPage />} />
+          <Route path="pages" element={<Pages />} />
+          <Route path="analytics" element={<Analytics/>} />
+          <Route path="domains" element={<DomainPage />} />
+          <Route path="support" element={<Support />} />
           <Route path="settings" element={<SettingsPage/>} />
+
         </Route>
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />

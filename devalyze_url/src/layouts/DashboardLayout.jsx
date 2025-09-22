@@ -243,7 +243,7 @@ const DashboardLayout = () => {
                 )}
               </NavLink>
             ))}
-            <div className="w-full flex flex-col border-t gap-2 border-b px-6 border-gray-200 mt-6">
+            <div className=" flex flex-col border-t gap-2 border-b border-gray-200 mt-6">
               {navLinks2.map((link) => (
                 <NavLink
                   to={link.path}
@@ -251,7 +251,7 @@ const DashboardLayout = () => {
                   key={link.name}
                   onClick={() => setSidebarOpen(false)} // close sidebar when clicked
                   className={({ isActive }) =>
-                    `flex items-center gap-3 text-sm py-2 rounded transition-all ${
+                    `flex items-center gap-3 px-6 text-sm py-2 rounded transition-all ${
                       isActive
                         ? "bg-blue-100 text-blue-700 font-semibold shadow-inner"
                         : "text-gray-800 hover:bg-gray-100"
@@ -291,7 +291,7 @@ const DashboardLayout = () => {
       </div>
 
       {/* Main Panel */}
-      <div className="flex-1 bg-white py-3 pr-1">
+      <div className="flex-1 bg-white pt-3 pr-1">
         {/* Topbar */}
         <div className="flex md:justify-between gap-8 items-center pb-3 px-3 w-full">
           {/* Mobile menu button */}

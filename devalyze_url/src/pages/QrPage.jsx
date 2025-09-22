@@ -90,7 +90,7 @@ export default function QrPage() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto p-6">
+    <div className=" bg-gray-100 min-h-screen p-6">
       {/* Form */}
       <form onSubmit={handleCreate} className="flex gap-2 mb-6">
         <input
