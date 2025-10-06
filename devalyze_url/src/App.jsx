@@ -12,6 +12,7 @@ import LinksPage from "./pages/Linkspage.jsx";
 import QrPage from "./pages/QrPage.jsx";
 import PrivateRoute from "./components/PrivateRoute";
 import SettingsPage from "./pages/SettingsPage";
+import Pages from "./pages/Pages";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route index element={<Dashboard />} />
           <Route path="links" element={<LinksPage />} />
           <Route path="qrcodes" element={<QrPage />} />
+          <Route path="pages" element={<Pages />} />
           <Route path="settings" element={<SettingsPage/>} />
         </Route>
       </Routes>
