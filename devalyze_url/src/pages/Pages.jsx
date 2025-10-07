@@ -7,8 +7,8 @@ function Pages() {
     const [getImage, setGetImage] = useState(null);
     const [open, setOpen] = useState(false);
     const [profile,setProfile] = useState({
-        username: "Name",
-        bio:"Biography"
+        username: "",
+        bio:""
     });
     const HandleChange =(e) => {
         const {name, value} = e.target;
@@ -92,7 +92,7 @@ function Pages() {
                             <p className="text-gray-700">This is the modal content.</p>
                         </BasicModal>
                     </main>
-                    <div className='flex gap-2 p-2 min-h-100'>
+                    <div className='flex gap-2 p-2 min-h-100 border'>
 
                     </div>
 
@@ -108,11 +108,11 @@ function Pages() {
                                     className="w-full h-full object-cover object-top"
                                 />
                             ) : (
-                                <p className="text-gray-400 text-sm text-center w-full">No image selected</p>
+                                <p className="text-gray-400 text-sm text-center w-full">Select an Image</p>
                             )}
                         </div>
-                        <h1 className={`text-black text-3xl font-bold`}>{profile.username}</h1>
-                        <p className={`text-[#292929] text-center text-md font-medium`}>{profile.bio}</p>
+                        <h1 className={`text-black text-3xl font-bold`}>{profile.username ? profile.username : 'Input your Name...'}</h1>
+                        <p className={`text-[#292929] text-center text-md font-medium `}>{profile.bio ? profile.bio : 'Input your Bio...'}</p>
                         <span>
 
                         </span>
