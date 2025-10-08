@@ -8,6 +8,8 @@ const urlRoutes = require("./routes/url");
 const qrRoutes = require("./routes/qr");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const analyticsRoutes = require("./routes/analytics");
+
 
 // DB connection
 const connectDB = require("./config/db");
@@ -31,6 +33,8 @@ app.use("/", urlRoutes);
 app.use("/api/qr", qrRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/analytics", analyticsRoutes);
+
 
 // Connect to MongoDB
 connectDB();

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import axios from "axios";
 import {
   Menu,
@@ -55,15 +55,47 @@ const navLinks2 = [
 ];
 
 const DashboardLayout = () => {
-  const [sidebarOpen, setSidebarOpen] = useState(false); // closed by default on mobile
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [openProfile, setOpenProfile] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
-
   const profileRef = useRef(null);
   const createRef = useRef(null);
+  const navigate = useNavigate();
 
-  // Close dropdown when clicking outside
+  const API_BASE_URL =
+    import.meta.env.MODE === "development"
+      ? "http://localhost:5000"
+      : "https://dvilz.onrender.com";
+
+  // 🔒 Check authentication
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        toast.warn("Please log in to access your dashboard");
+        navigate("/login");
+        return;
+      }
+
+      try {
+        const res = await axios.get(`${API_BASE_URL}/api/users/me`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setUser(res.data);
+      } catch (err) {
+        console.error("Auth error:", err);
+        localStorage.removeItem("token");
+        toast.error("Session expired. Please log in again.");
+        navigate("/login");
+      }
+    };
+
+    checkAuth();
+  }, [navigate]);
+
+  // 🔁 Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (profileRef.current && !profileRef.current.contains(event.target)) {
@@ -78,60 +110,6 @@ const DashboardLayout = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Helper: Generate random color (consistent per user)
-  const getRandomColor = (name) => {
-    const colors = [
-      "#F44336",
-      "#E91E63",
-      "#9C27B0",
-      "#673AB7",
-      "#3F51B5",
-      "#2196F3",
-      "#03A9F4",
-      "#00BCD4",
-      "#009688",
-      "#4CAF50",
-      "#8BC34A",
-      "#FFC107",
-      "#FF9800",
-      "#FF5722",
-      "#795548",
-      "#607D8B",
-    ];
-
-    // Pick color based on name hash (so it's stable for each user)
-    let hash = 0;
-    for (let i = 0; i < name.length; i++) {
-      hash = name.charCodeAt(i) + ((hash << 5) - hash);
-    }
-    const index = Math.abs(hash % colors.length);
-    return colors[index];
-  };
-
-  const API_BASE_URL =
-    import.meta.env.MODE === "development"
-      ? "http://localhost:5000" // Local backend
-      : "https://dvilz.onrender.com"; // Render backend
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) return;
-
-      try {
-        const res = await axios.get(`${API_BASE_URL}/api/users/me`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setUser(res.data);
-      } catch (err) {
-        console.error("Failed to fetch user:", err);
-      }
-    };
-
-    fetchUser();
-  }, []);
 
   // Time & Greeting
   const date = new Date();
@@ -156,6 +134,31 @@ const DashboardLayout = () => {
     day: "numeric",
   });
 
+   // 🚪 Sign Out Function
+  const handleSignOut = () => {
+    localStorage.removeItem("token");
+    toast.success("Signed out successfully");
+    navigate("/login");
+  };
+
+
+  
+   
+  // 🎨 Avatar color generator
+  const getRandomColor = (name) => {
+    const colors = [
+      "#F44336", "#E91E63", "#9C27B0", "#673AB7", "#3F51B5",
+      "#2196F3", "#03A9F4", "#00BCD4", "#009688", "#4CAF50",
+      "#8BC34A", "#FFC107", "#FF9800", "#FF5722", "#795548", "#607D8B",
+    ];
+
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return colors[Math.abs(hash % colors.length)];
+  };
+  
   // Avatar component
   const UserAvatar = ({ fullName }) => {
     if (!fullName) return null;
@@ -375,7 +378,7 @@ const DashboardLayout = () => {
                 onClick={() => setOpenProfile(!openProfile)}
                 className="w-10 h-10 cursor-pointer rounded-full bg-yellow-400 flex items-center justify-center font-bold text-white"
               >
-                <UserAvatar fullName={user?.fullName || "Guest User"} />
+                <UserAvatar fullName={user?.fullName || ""} />
               </button>
 
               {openProfile && (
@@ -401,13 +404,13 @@ const DashboardLayout = () => {
                       <User /> My profile
                     </li>
                     <li className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer">
-                      <Bell /> Notifications
-                    </li>
-                    <li className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer">
                       <Settings /> Settings
                     </li>
-                    <hr className="border-t-1 border-gray-300"/>
-                    <li className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100    cursor-pointer text-red-500">
+                    <hr className="border-t-1 border-gray-300" />
+                    <li
+                      onClick={handleSignOut}
+                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-100 cursor-pointer text-red-500"
+                    >
                       <LogOut /> Sign out
                     </li>
                   </ul>
