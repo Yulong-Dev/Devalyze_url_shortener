@@ -93,6 +93,10 @@ function Pages() {
                         </BasicModal>
                     </main>
                     <div className='flex gap-2 p-2 min-h-100 border'>
+                        <h1 className={`text-4xl font-semibold pt-3 pl-3`}>Theme</h1>
+                        <div>
+                            
+                        </div>
 
                     </div>
 
