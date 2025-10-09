@@ -30,10 +30,10 @@ function App() {
           path="/dashboard"
           element={
 
-              // <PrivateRoute>
-              //     <DashboardLayout />
-              // </PrivateRoute>
-              <DashboardLayout />
+              <PrivateRoute>
+                  <DashboardLayout />
+              </PrivateRoute>
+              // <DashboardLayout />
 
           }
         >
