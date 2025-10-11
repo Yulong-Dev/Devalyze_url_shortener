@@ -64,9 +64,13 @@ router.get("/:shortCode", async (req, res) => {
   try {
     const url = await Url.findOneAndUpdate(
       { shortCode },
-      { $inc: { clicks: 1 } },
+      {
+        $inc: { clicks: 1 },
+        $push: { clickHistory: { timestamp: new Date() } }, // log click
+      },
       { new: true }
-    ); // Increment click count
+    );
+
     if (url) {
       res.redirect(url.longUrl);
     } else {
@@ -77,5 +81,6 @@ router.get("/:shortCode", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
 
 module.exports = router;

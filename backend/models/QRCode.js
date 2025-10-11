@@ -1,27 +1,19 @@
+// models/QRCode.js
 const mongoose = require("mongoose");
 
-const qrCodeSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // reference to User model
-    required: true,
+const qrCodeSchema = new mongoose.Schema(
+  {
+    user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+    longUrl: { type: String, required: true },
+    qrCodeUrl: { type: String, required: true }, // Base64 image
+    scans: { type: Number, default: 0 }, // keep total
+    scanHistory: [
+      {
+        timestamp: { type: Date, default: Date.now },
+      },
+    ], // NEW: log every scan
   },
-  longUrl: {
-    type: String, // the original URL
-    required: true,
-  },
-  qrCodeUrl: {
-    type: String, // base64 string of the generated QR code image
-    required: true,
-  },
-  scans: {
-    type: Number,
-    default: 0, // how many times this QR code was scanned
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-});
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("QRCode", qrCodeSchema);
