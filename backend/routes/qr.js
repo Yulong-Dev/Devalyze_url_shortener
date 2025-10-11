@@ -79,21 +79,21 @@ router.delete("/:id", authMiddleware, async (req, res) => {
   }
 });
 
-/**
- * @route   PATCH /api/qr/:id/scan
- * @desc    Increment scan count (optional analytics)
- * @access  Public
- */
+// PATCH /api/qr/:id/scan
 router.patch("/:id/scan", async (req, res) => {
   try {
-    const qr = await QRCodeModel.findById(req.params.id);
+    const qr = await QRCodeModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        $inc: { scans: 1 },
+        $push: { scanHistory: { timestamp: new Date() } }, // log scan
+      },
+      { new: true }
+    );
 
     if (!qr) {
       return res.status(404).json({ error: "QR Code not found" });
     }
-
-    qr.scans += 1;
-    await qr.save();
 
     res.json({ scans: qr.scans });
   } catch (error) {
@@ -101,5 +101,6 @@ router.patch("/:id/scan", async (req, res) => {
     res.status(500).json({ error: "Failed to update scan count" });
   }
 });
+
 
 module.exports = router;

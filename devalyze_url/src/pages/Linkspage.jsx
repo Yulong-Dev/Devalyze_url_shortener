@@ -77,14 +77,14 @@ const LinksPage = () => {
   };
 
   return (
-    <div className="p-4 sm:p-6">
-      <div className="mx-auto max-w-5xl">
-        <h1 className="text-2xl sm:text-3xl font-bold mb-4">My Links</h1>
+    <div className="bg-gray-100 flex flex-col  min-h-screen gap-6 p-4 sm:p-6">
+      <div className="bg-white border rounded-sm shadow-lg p-8 ">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-4">URL Shortener</h1>
 
         {/* Create form */}
         <form
           onSubmit={handleSubmit}
-          className="bg-white border rounded-xl p-4 sm:p-5 shadow-sm mb-6 flex flex-col sm:flex-row gap-3"
+          className="bg-white rounded-xl flex flex-col sm:flex-row gap-3"
         >
           <input
             type="url"
@@ -92,12 +92,12 @@ const LinksPage = () => {
             placeholder="Paste a long URL (https://...)"
             value={longUrl}
             onChange={(e) => setLongUrl(e.target.value)}
-            className="flex-1 border rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-[var(--Primary-500,#4E61F6)]"
+            className="flex-1 border rounded-sm px-3 py-2 outline-none focus:ring-2 focus:ring-[var(--Primary-500,#4E61F6)]"
           />
           <button
             type="submit"
             disabled={creating}
-            className={`px-4 py-2 rounded-lg text-white font-medium ${
+            className={`px-4 py-2 rounded-sm text-white font-medium ${
               creating
                 ? "bg-blue-400 cursor-not-allowed"
                 : "bg-[var(--Primary-500,#4E61F6)] hover:bg-blue-700"
@@ -106,12 +106,13 @@ const LinksPage = () => {
             {creating ? "Shortening..." : "Shorten"}
           </button>
         </form>
+        </div>
 
         {/* List */}
-        <div className="bg-white border rounded-xl shadow-sm">
+        <div className="bg-white border rounded-xl shadow-lg">
           <div className="px-4 py-3 border-b flex items-center justify-between">
-            <span className="font-semibold">Your recent links</span>
-            <span className="text-sm text-gray-500">{urls.length} total</span>
+            <h2 className="font-bold text-lg">Devalyze Links</h2>
+            <span className="text-md text-gray-500">{urls.length} Total</span>
           </div>
 
           {loading ? (
@@ -185,7 +186,7 @@ const LinksPage = () => {
             </ul>
           )}
         </div>
-      </div>
+      
     </div>
   );
 };

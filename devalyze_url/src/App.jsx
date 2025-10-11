@@ -12,7 +12,7 @@ import LinksPage from "./pages/Linkspage.jsx";
 import QrPage from "./pages/QrPage.jsx";
 import Pages from "./pages/Pages";
 import PrivateRoute from "./components/PrivateRoute";
-import Analytics from "./pages/Analytics.jsx";
+import Analytics from "./pages/AnalyticsPage.jsx";
 import DomainPage from "./pages/Domain.jsx";
 import Support from "./pages/Support.jsx";
 import SettingsPage from "./pages/SettingsPage";

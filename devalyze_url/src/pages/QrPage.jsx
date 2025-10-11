@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { createQr, getMyQrs, deleteQr } from "../services/qrService";
 import { toast } from "react-toastify";
+import { Copy, Share2, Calendar, Trash2, Loader2 } from "lucide-react";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function QrPage() {
@@ -14,13 +15,19 @@ export default function QrPage() {
   }, []);
 
   const loadQrs = async () => {
-    try {
-      const data = await getMyQrs();
-      setQrs(data);
-    } catch (error) {
-      console.error("Failed to fetch QRs:", error);
-      toast.error("⚠️ Failed to load QR codes. Please try again.");
-    }
+     try {
+          setLoading(true);
+          const data = await getMyQrs();
+          if (Array.isArray(data)) {
+            setQrs(data);
+        } else {
+            toast.error(data?.message || "Failed to load Qrcodes");
+          }
+        } catch {
+          toast.error("⚠️Failed to load Qrcodes");
+        } finally {
+          setLoading(false);
+        }
   };
 
   const handleCreate = async (e) => {
@@ -90,77 +97,85 @@ export default function QrPage() {
   };
 
   return (
-    <div className=" bg-gray-100 min-h-screen p-6">
+    <div className=" bg-gray-100 flex flex-col min-h-screen p-6 gap-6">
+      <div className="bg-white border rounded-sm shadow-lg p-6">
+        <h1 className="text-2xl sm:text-3xl font-bold mb-4">QR Code Generator</h1>
       {/* Form */}
-      <form onSubmit={handleCreate} className="flex gap-2 mb-6">
+      <form onSubmit={handleCreate} className="flex gap-2 ">
         <input
           type="url"
           placeholder="Enter a URL..."
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-          className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring focus:border-blue-400"
+          className="flex-1 px-4 py-2 border rounded-sm focus:outline-none focus:ring focus:border-blue-400"
         />
         <button
           type="submit"
           disabled={loading}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+          className="px-4 py-2 bg-blue-600 text-white rounded-sm hover:bg-blue-700 disabled:opacity-50"
         >
           {loading ? "Generating..." : "Generate"}
         </button>
       </form>
+      </div>
 
       {/* QR Codes List */}
-      <div>
-        {qrs.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 text-center text-gray-500">
-            <img
-              src="/empty-state.svg"
-              alt="No QR Codes"
-              className="w-32 h-32 mb-4 opacity-70"
-            />
-            <p className="text-lg font-medium">No QR Codes created yet</p>
-            <p className="text-sm text-gray-400">
-              Start by creating your first QR Code!
-            </p>
+      <div className="bg-white border rounded-xl shadow-lg ">
+        <div className="px-4 py-3 border-b flex items-center justify-between">
+            <h2 className="font-bold text-lg">Devalyze QR Codes</h2>
+            <span className="text-md text-gray-500">{qrs.length} Total</span>
           </div>
+           {loading ? (
+            <div className="p-6 flex items-center gap-2">
+              <Loader2 className="animate-spin h-5 w-5" />
+              <span>Loading Qrcodes…</span>
+            </div>
+          ) : qrs.length === 0 ? (
+            <div className="p-6 text-gray-500">
+              No Qrcodes yet. Create your first one above.
+            </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="flex flex-col p-4 gap-2 ">
             {qrs.map((qr) => (
               <div
                 key={qr._id}
-                className="border rounded-lg p-4 flex flex-col items-center shadow-sm"
+                className=" border-b p-1 flex gap-1 items-center relative "
               >
+                <div>
                 <img
                   src={qr.qrCodeUrl}
                   alt="QR Code"
-                  className="w-40 h-40 mb-4"
+                  className="w-12 h-12 "
                 />
-                <p className="text-sm text-gray-600 break-all mb-3">
+                </div>
+                <div >
+                <p className="text-sm text-gray-600 break-all mb-1">
                   {qr.longUrl}
                 </p>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => handleCopyImage(qr.qrCodeUrl)}
-                    className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300 text-sm"
-                  >
-                    Copy
+                <div className="flex gap-2 absolute top-0 right-2">
+                  <button>
+                  < Copy 
+                  className="p-1 bg-gray-300 rounded cursor-pointer"
+                  onClick={() => handleCopyImage(qr.qrCodeUrl)}/>
                   </button>
-                  <button
+                  <button>
+                    <Share2 
                     onClick={() => handleShareImage(qr.qrCodeUrl)}
-                    className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 text-sm"
-                  >
-                    Share
+                    className="p-1 bg-green-500 rounded cursor-pointer"/>
                   </button>
-                  <button
+                  <button>
+                    <Trash2
                     onClick={() => handleDelete(qr._id)}
-                    className="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm"
-                  >
-                    Delete
+                    className="p-1 bg-red-500 rounded cursor-pointer"/>
                   </button>
                 </div>
-                <p className="text-xs text-gray-400 mt-2">
+                <p className="text-xs text-gray-400">
                   Scans: {qr.scans || 0}
                 </p>
+                <span className="text-gray-600 text-xs flex items-center gap-1">
+                  <Calendar size={13} /> {new Date(qr.createdAt).toLocaleDateString()}
+                </span>
+              </div>
               </div>
             ))}
           </div>
