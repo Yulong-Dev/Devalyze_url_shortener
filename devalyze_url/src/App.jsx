@@ -17,6 +17,7 @@ import DomainPage from "./pages/Domain.jsx";
 import Support from "./pages/Support.jsx";
 import SettingsPage from "./pages/SettingsPage";
 
+
 function App() {
   return (
     <Router>
@@ -32,6 +33,7 @@ function App() {
               <PrivateRoute>
                   <DashboardLayout />
               </PrivateRoute>
+              // <DashboardLayout />
 
           }
         >
