@@ -93,7 +93,8 @@ export default function AnalyticsPage() {
     return <p className="text-center text-red-500">Analytics error: {error}</p>;
 
   return (
-    <div className="p-6 bg-white h-full">
+    <div className=" bg-gray-100 p-6 min-h-screen">
+      <div className="bg-white border rounded-xl shadow-lg p-6">
       <h2 className="text-2xl font-semibold mb-6 text-gray-700">
         URL & QR Analytics
       </h2>
@@ -133,6 +134,7 @@ export default function AnalyticsPage() {
           </ResponsiveContainer>
         </div>
       )}
+      </div>
     </div>
   );
 }
