@@ -5,7 +5,7 @@ export const Themecontext = createContext();
 function ThemeContext({ children }) {
     const themes = {
         custom: {
-            name: 'custom',
+            name:"custom",
             titleColor: '#000',
             bioColor: '#444',
             backgroundColor: '#fff',
