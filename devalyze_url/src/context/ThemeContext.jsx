@@ -49,7 +49,7 @@ function ThemeContext({ children }) {
             titleColor: '#1a1a1a',
             bioColor: '#2e2e2e',
             backgroundColor: '#e5e7eb',
-            border: '1px solid #ccc',
+            border: '1px solid black',
         },
     };
 

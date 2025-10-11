@@ -2,6 +2,7 @@ import React, {useState, useContext, useEffect} from "react";
 import AddIcon from "@mui/icons-material/Add";
 import BasicModal from "../components/smoothui/ui/BasicModal.jsx";
 import { Themecontext } from "../context/ThemeContext.jsx";
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import img1 from "../assets/Frame.svg"
 import img2 from "../assets/Frame2.svg"
 import img3 from "../assets/Frame3.svg"
@@ -269,6 +270,40 @@ function Pages() {
                         <p className="text-gray-400 text-sm">No links added yet</p>
                         )}
                 </div>
+                        <div className="flex flex-col gap-5 mt-3 w-full ">
+                            {PopularLinks.length > 0 ? (
+                                PopularLinks.map((link, index) => (
+                                    <a
+                                        key={index}
+                                        href={link.LinkUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-3 p-2 px-4 border rounded-full hover:opacity-80 transition"
+
+                                    >
+                                        {link.socialIcon ? (
+                                            <img
+                                                src={link.socialIcon}
+                                                alt="favicon"
+                                                className="w-10 h-10 flex-shrink-0 rounded"
+                                                onError={(e) => {
+                                                    e.target.style.display = 'none';
+                                                }}
+                                            />
+                                        ) : (
+                                            <div className="w-10 h-10 flex-shrink-0 bg-gray-300 rounded flex items-center justify-center">
+                                                <span className="text-xs text-gray-600">🔗</span>
+                                            </div>
+                                        )}
+                                        <ArrowForwardIcon />
+                                        <span className="text-xl font-medium">{link.LinkTitle}</span>
+
+                                    </a>
+                                ))
+                            ) : (
+                                <p className="text-gray-400 text-sm">No links added yet</p>
+                            )}
+                        </div>
 
             </div>
         </aside>
