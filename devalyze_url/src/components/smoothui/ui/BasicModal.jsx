@@ -90,7 +90,7 @@ function BasicModal({
                             </div>
 
                             {/* Content */}
-                            <div className="relative">{children}</div>
+                            <div className="relative flex flex-col gap-3">{children}</div>
                         </motion.div>
                     </motion.div>
                 </>
