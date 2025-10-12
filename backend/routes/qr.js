@@ -1,13 +1,13 @@
 const express = require("express");
 const QRCode = require("qrcode");
-const QRCodeModel = require("../models/QRCode"); // <-- your QRCode schema
-const authMiddleware = require("../middleware/authMiddleware"); // <-- protects routes, gets user from token
+const QRCodeModel = require("../models/QRCode");
+const authMiddleware = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
 /**
  * @route   POST /api/qr
- * @desc    Create a new QR code (save in DB)
+ * @desc    Create a new QR code (save in DB and generate redirect QR)
  * @access  Private
  */
 router.post("/", authMiddleware, async (req, res) => {
@@ -18,17 +18,27 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 
   try {
-    // Generate QR as Base64 DataURL
-    const qrCodeDataURL = await QRCode.toDataURL(longUrl);
+    // Step 1: Prepare the redirect URL (before saving)
+    const BASE_URL =
+      process.env.NODE_ENV === "production"
+        ? "https://dvilz.onrender.com" // your hosted backend
+        : "http://localhost:5000"; // local dev backend
 
-    // Save to MongoDB
+    // We'll first create a temp ID manually to use in redirect URL
+    const tempQR = new QRCodeModel();
+    const redirectUrl = `${BASE_URL}/api/qr/redirect/${tempQR._id}`;
+
+    // Step 2: Generate the QR code image
+    const qrCodeDataURL = await QRCode.toDataURL(redirectUrl);
+
+    // Step 3: Now save everything (so validation passes)
     const newQR = new QRCodeModel({
-      user: req.user.userId, // ✅ FIXED
+      _id: tempQR._id,
+      user: req.user.userId,
       longUrl,
       qrCodeUrl: qrCodeDataURL,
       scans: 0,
     });
-
     await newQR.save();
 
     res.json(newQR);
@@ -38,6 +48,7 @@ router.post("/", authMiddleware, async (req, res) => {
   }
 });
 
+
 /**
  * @route   GET /api/qr
  * @desc    Get all QR codes of logged-in user
@@ -45,9 +56,9 @@ router.post("/", authMiddleware, async (req, res) => {
  */
 router.get("/", authMiddleware, async (req, res) => {
   try {
-    const qrs = await QRCodeModel.find({ user: req.user.userId }) // ✅ FIXED
-      .sort({ createdAt: -1 });
-
+    const qrs = await QRCodeModel.find({ user: req.user.userId }).sort({
+      createdAt: -1,
+    });
     res.json(qrs);
   } catch (error) {
     console.error("Fetching user QR codes failed:", error);
@@ -64,7 +75,7 @@ router.delete("/:id", authMiddleware, async (req, res) => {
   try {
     const qr = await QRCodeModel.findOne({
       _id: req.params.id,
-      user: req.user.userId, // ✅ FIXED
+      user: req.user.userId,
     });
 
     if (!qr) {
@@ -79,14 +90,18 @@ router.delete("/:id", authMiddleware, async (req, res) => {
   }
 });
 
-// PATCH /api/qr/:id/scan
-router.patch("/:id/scan", async (req, res) => {
+/**
+ * @route   GET /api/qr/redirect/:id
+ * @desc    When someone scans the QR, increment scan count + redirect
+ * @access  Public
+ */
+router.get("/redirect/:id", async (req, res) => {
   try {
     const qr = await QRCodeModel.findByIdAndUpdate(
       req.params.id,
       {
         $inc: { scans: 1 },
-        $push: { scanHistory: { timestamp: new Date() } }, // log scan
+        $push: { scanHistory: { timestamp: new Date() } },
       },
       { new: true }
     );
@@ -95,12 +110,12 @@ router.patch("/:id/scan", async (req, res) => {
       return res.status(404).json({ error: "QR Code not found" });
     }
 
-    res.json({ scans: qr.scans });
+    // Redirect the user to the actual destination
+    return res.redirect(qr.longUrl);
   } catch (error) {
-    console.error("Scan counter update failed:", error);
-    res.status(500).json({ error: "Failed to update scan count" });
+    console.error("Redirect + scan update failed:", error);
+    res.status(500).json({ error: "Failed to redirect" });
   }
 });
-
 
 module.exports = router;

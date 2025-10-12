@@ -94,8 +94,8 @@ export default function AnalyticsPage() {
 
   return (
     <div className=" bg-gray-100 p-6 min-h-screen">
-      <div className="bg-white border rounded-xl shadow-lg p-6">
-      <h2 className="text-2xl font-semibold mb-6 text-gray-700">
+      <div className="bg-white border rounded-xl shadow-lg p-2 sm:p-6">
+      <h2 className="text-2xl font-semibold mb-5 sm:mb-6 text-gray-700">
         URL & QR Analytics
       </h2>
 

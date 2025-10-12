@@ -98,10 +98,10 @@ export default function QrPage() {
 
   return (
     <div className=" bg-gray-100 flex flex-col min-h-screen p-6 gap-6">
-      <div className="bg-white border rounded-sm shadow-lg p-6">
-        <h1 className="text-2xl sm:text-3xl font-bold mb-4">QR Code Generator</h1>
+      <div className="bg-white flex flex-col border rounded-sm shadow-lg p-6">
+        <h1 className="text-2xl font-bold mb-4">QR Code Generator</h1>
       {/* Form */}
-      <form onSubmit={handleCreate} className="flex gap-2 ">
+      <form onSubmit={handleCreate} className="flex flex-col gap-2 sm:flex-row">
         <input
           type="url"
           placeholder="Enter a URL..."
@@ -145,7 +145,7 @@ export default function QrPage() {
                 <img
                   src={qr.qrCodeUrl}
                   alt="QR Code"
-                  className="w-12 h-12 "
+                  className="w-20 h-20 "
                 />
                 </div>
                 <div >
