@@ -40,11 +40,11 @@ export default function AnalyticsPage() {
         const res = await fetch(`${API_BASE_URL}/api/analytics`, {
           method: "GET",
           headers: getAuthConfig(),
-          credentials: "include", // include cookies if any
+          credentials: "include",
         });
 
         const text = await res.text();
-        console.log("Analytics raw response:", text); // Debug log
+        console.log("Analytics raw response:", text);
 
         if (!res.ok) {
           let parsed;
@@ -92,48 +92,72 @@ export default function AnalyticsPage() {
   if (error)
     return <p className="text-center text-red-500">Analytics error: {error}</p>;
 
-  return (
-    <div className=" bg-gray-100 p-6 min-h-screen">
-      <div className="bg-white border rounded-xl shadow-lg p-2 sm:p-6">
-      <h2 className="text-2xl font-semibold mb-5 sm:mb-6 text-gray-700">
-        URL & QR Analytics
-      </h2>
+  // ✅ Compute totals
+  const totalViews = data.reduce((sum, d) => sum + (d.scans || 0), 0);
+  const totalClicks = data.reduce((sum, d) => sum + (d.clicks || 0), 0);
+  const ctr = totalViews ? ((totalClicks / totalViews) * 100).toFixed(2) : 0;
 
-      {data.length === 0 ? (
-        <p className="text-gray-500">No analytics available yet.</p>
-      ) : (
-        <div style={{ width: "100%", height: 420 }}>
-          <ResponsiveContainer>
-            <LineChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis
-                dataKey="date"
-                tickFormatter={(d) => (typeof d === "string" && d.length >= 10 ? d.slice(5) : d)}
-                allowDuplicatedCategory={false}
-              />
-              <YAxis />
-              <Tooltip />
-              <Legend />
-              <Line
-                type="monotone"
-                dataKey="clicks"
-                stroke="#2563eb"
-                strokeWidth={2}
-                dot={{ r: 3 }}
-                activeDot={{ r: 6 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="scans"
-                stroke="#f97316"
-                strokeWidth={2}
-                dot={{ r: 3 }}
-                activeDot={{ r: 6 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
+  return (
+    <div className="bg-gray-100 p-6 min-h-screen">
+      <div className="bg-white flex flex-col border rounded-xl shadow-lg ">
+        <h2 className="text-2xl font-bold border-b mb-5 p-4 sm:p-5 sm:mb-6 text-black">
+          Analytics
+        </h2>
+
+        {/* ✅ Stats Cards Section */}
+        <div className="grid grid-cols-3 self-center  sm:grid-cols-4 gap-2 sm:gap-20 mb-6">
+          <div className="bg-blue-50 p-4 rounded-lg shadow-sm text-center">
+            <p className="text-gray-500 text-sm">Scans</p>
+            <h3 className="text-2xl font-bold text-blue-600">{totalViews}</h3>
+          </div>
+          <div className="bg-orange-50 p-4 rounded-lg shadow-sm text-center">
+            <p className="text-gray-500 text-sm">Clicks</p>
+            <h3 className="text-2xl font-bold text-orange-600">{totalClicks}</h3>
+          </div>
+          <div className="bg-green-50 p-4 rounded-lg shadow-sm text-center">
+            <p className="text-gray-500 text-sm">CTR</p>
+            <h3 className="text-2xl font-bold text-green-600">{ctr}%</h3>
+          </div>
         </div>
-      )}
+
+        {/* ✅ Chart Section */}
+        {data.length === 0 ? (
+          <p className="text-gray-500">No analytics available yet.</p>
+        ) : (
+          <div style={{ width: "100%", height: 420 }}>
+            <ResponsiveContainer>
+              <LineChart data={data}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="date"
+                  tickFormatter={(d) =>
+                    typeof d === "string" && d.length >= 10 ? d.slice(5) : d
+                  }
+                  allowDuplicatedCategory={false}
+                />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="clicks"
+                  stroke="#2563eb"
+                  strokeWidth={2}
+                  dot={{ r: 3 }}
+                  activeDot={{ r: 6 }}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="scans"
+                  stroke="#f97316"
+                  strokeWidth={2}
+                  dot={{ r: 3 }}
+                  activeDot={{ r: 6 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+        )}
       </div>
     </div>
   );
