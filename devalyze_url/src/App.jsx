@@ -3,6 +3,7 @@ import "./index.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
+
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -16,6 +17,7 @@ import Analytics from "./pages/AnalyticsPage.jsx";
 import DomainPage from "./pages/Domain.jsx";
 import Support from "./pages/Support.jsx";
 import SettingsPage from "./pages/SettingsPage";
+import PublicProfile from "./pages/PublicProfile.jsx";
 
 
 function App() {
@@ -47,6 +49,7 @@ function App() {
           <Route path="settings" element={<SettingsPage/>} />
 
         </Route>
+          <Route path="/u/:username" element={<PublicProfile />} />
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
     </Router>
