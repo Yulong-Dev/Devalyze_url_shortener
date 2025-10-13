@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext,useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
@@ -10,8 +10,14 @@ import img3 from "../assets/Frame3.svg";
 import img4 from "../assets/Frame4.svg";
 import img5 from "../assets/Frame5.svg";
 
+
+const STORAGE_KEYS = {
+    PROFILE: 'devalyze_pages_profile',
+    LINKS: 'devalyze_pages_links',
+    IMAGE: 'devalyze_pages_image',
+};
 function Pages() {
-    const { theme, setThemeByName } = useContext(Themecontext);
+    const { theme, setThemeByName,themeName } = useContext(Themecontext);
     const [getImage, setGetImage] = useState(null);
     const [open, setOpen] = useState(false);
     const [profile, setProfile] = useState({
@@ -24,6 +30,69 @@ function Pages() {
         socialIcon: "",
     });
     const [PopularLinks, setPopularLinks] = useState([]);
+
+    // ⭐⭐⭐ ADD THIS ENTIRE SECTION ⭐⭐⭐
+    // 🔵 Load saved data when component mounts (page loads)
+    useEffect(() => {
+        console.log("📂 Loading saved data from localStorage...");
+
+        try {
+            // Load profile (name & bio)
+            const savedProfile = localStorage.getItem(STORAGE_KEYS.PROFILE);
+            if (savedProfile) {
+                const parsedProfile = JSON.parse(savedProfile);
+                setProfile(parsedProfile);
+                console.log("✅ Profile loaded:", parsedProfile);
+            }
+
+            // Load links
+            const savedLinks = localStorage.getItem(STORAGE_KEYS.LINKS);
+            if (savedLinks) {
+                const parsedLinks = JSON.parse(savedLinks);
+                setPopularLinks(parsedLinks);
+                console.log("✅ Links loaded:", parsedLinks.length, "links");
+            }
+
+            // Load image
+            const savedImage = localStorage.getItem(STORAGE_KEYS.IMAGE);
+            if (savedImage) {
+                setGetImage(savedImage);
+                console.log("✅ Image loaded");
+            }
+        } catch (error) {
+            console.error("❌ Error loading data:", error);
+        }
+    }, []); // Empty array = run only once on mount
+
+    // 🔵 Save profile whenever it changes
+    useEffect(() => {
+        if (profile.username || profile.bio) {
+            localStorage.setItem(STORAGE_KEYS.PROFILE, JSON.stringify(profile));
+            console.log("💾 Profile saved to localStorage");
+        }
+    }, [profile]);
+
+    // 🔵 Save links whenever they change
+    useEffect(() => {
+        if (PopularLinks.length > 0) {
+            localStorage.setItem(STORAGE_KEYS.LINKS, JSON.stringify(PopularLinks));
+            console.log("💾 Links saved to localStorage:", PopularLinks.length, "links");
+        }
+    }, [PopularLinks]);
+
+    // 🔵 Save image whenever it changes
+    useEffect(() => {
+        if (getImage) {
+            localStorage.setItem(STORAGE_KEYS.IMAGE, getImage);
+            console.log("💾 Image saved to localStorage");
+        }
+    }, [getImage]);
+
+    // 🔵 Save theme preference (already handled by ThemeContext, but we can track it)
+    useEffect(() => {
+        console.log("🎨 Theme changed to:", themeName);
+    }, [themeName]);
+    // ⭐⭐⭐ END OF NEW SECTION ⭐⭐⭐
 
     const HandleChange = (e) => {
         const { name, value } = e.target;
@@ -73,6 +142,23 @@ function Pages() {
         setGetImage(null);
     }
 
+
+    function clearAllData() {
+        if (window.confirm("Are you sure you want to clear all data? This cannot be undone.")) {
+            // Clear state
+            setProfile({ username: "", bio: "" });
+            setPopularLinks([]);
+            setGetImage(null);
+
+            // Clear localStorage
+            localStorage.removeItem(STORAGE_KEYS.PROFILE);
+            localStorage.removeItem(STORAGE_KEYS.LINKS);
+            localStorage.removeItem(STORAGE_KEYS.IMAGE);
+
+            console.log("🗑️ All data cleared!");
+            alert("All data has been cleared!");
+        }
+    }
     return (
         <div className="p-4 bg-gray-100 min-h-screen">
             <div className="border rounded-md bg-white p-5 flex flex-col gap-5">
@@ -199,6 +285,15 @@ function Pages() {
                                     Add link & social icons
                                 </p>
                             </button>
+                            {(PopularLinks.length > 0 || profile.username || profile.bio || getImage) && (
+                                <button
+                                    onClick={clearAllData}
+                                    className="flex gap-1 items-center p-2 px-4 ml-0 sm:ml-5 hover:bg-red-50 rounded-md transition text-red-600"
+                                >
+                                    <DeleteIcon sx={{ fontSize: 24 }} />
+                                    <p className="font-medium text-md">Clear All Data</p>
+                                </button>
+                            )}
 
                             {/* Add Link Modal */}
                             <BasicModal
