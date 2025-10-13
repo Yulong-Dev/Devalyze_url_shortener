@@ -6,17 +6,17 @@ const pageSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required: true,
-      unique: true, // Each user can only have ONE page
+      index: true, // <-- Use this instead of schema.index({ user: 1 })
     },
     username: {
       type: String,
       required: true,
-      unique: true, // Usernames must be unique across all users
+      unique: true, // <-- Unique already creates an index automatically
       lowercase: true,
       trim: true,
       minlength: 3,
       maxlength: 30,
-      match: /^[a-z0-9_-]+$/, // Only lowercase letters, numbers, underscores, hyphens
+      match: /^[a-z0-9_-]+$/,
     },
     profileName: {
       type: String,
@@ -60,7 +60,7 @@ const pageSchema = new mongoose.Schema(
     ],
     isPublished: {
       type: Boolean,
-      default: true, // Auto-publish on save
+      default: true,
     },
     views: {
       type: Number,
@@ -69,17 +69,13 @@ const pageSchema = new mongoose.Schema(
     viewHistory: [
       {
         timestamp: { type: Date, default: Date.now },
-        // You can add more fields like IP, country, etc. later
       },
     ],
   },
-  {
-    timestamps: true, // Adds createdAt and updatedAt automatically
-  }
+  { timestamps: true }
 );
 
-// Index for faster username lookups
-pageSchema.index({ username: 1 });
-pageSchema.index({ user: 1 });
+// ✅ Remove duplicate index calls
+// (unique + index fields above already handle indexing automatically)
 
 module.exports = mongoose.model("Page", pageSchema);

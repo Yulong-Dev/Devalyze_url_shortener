@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 require("dotenv").config();
+const bodyParser = require("body-parser");
 const cors = require("cors");
 
 // Import routes
@@ -17,6 +18,10 @@ const connectDB = require("./config/db");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// ✅ Allow larger JSON & form uploads (up to 10 MB)
+app.use(bodyParser.json({ limit: "10mb" }));
+app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
 
 // Middleware
 app.use(cors({

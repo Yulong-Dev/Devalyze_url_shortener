@@ -3,7 +3,6 @@ import "./index.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
-
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import SignUp from "./pages/SignUp";
@@ -19,7 +18,6 @@ import Support from "./pages/Support.jsx";
 import SettingsPage from "./pages/SettingsPage";
 import PublicProfile from "./pages/PublicProfile.jsx";
 
-
 function App() {
   return (
     <Router>
@@ -31,25 +29,22 @@ function App() {
         <Route
           path="/dashboard"
           element={
-
-              <PrivateRoute>
-                  <DashboardLayout />
-              </PrivateRoute>
-              // <DashboardLayout />
-
+            <PrivateRoute>
+              <DashboardLayout />
+            </PrivateRoute>
+            // <DashboardLayout />
           }
         >
           <Route index element={<Dashboard />} />
           <Route path="links" element={<LinksPage />} />
           <Route path="qrcodes" element={<QrPage />} />
           <Route path="pages" element={<Pages />} />
-          <Route path="analytics" element={<Analytics/>} />
+          <Route path="analytics" element={<Analytics />} />
           <Route path="domains" element={<DomainPage />} />
           <Route path="support" element={<Support />} />
-          <Route path="settings" element={<SettingsPage/>} />
-
+          <Route path="settings" element={<SettingsPage />} />
         </Route>
-          <Route path="/u/:username" element={<PublicProfile />} />
+        <Route path="/u/:username" element={<PublicProfile />} />
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar />
     </Router>
