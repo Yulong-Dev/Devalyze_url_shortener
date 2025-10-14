@@ -1,88 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Navbar from "./Navbar";
 import { ArrowDownIcon } from "@heroicons/react/24/outline";
-import TrustedBy from "../components/TrustedBy"; // ✅ update path for ReactJS
-import { LazyLoadComponent, LazyLoadImage } from 'react-lazy-load-image-component';
-import user1 from "/public/logos/user1.png"
-import user2 from "/public/logos/user2.png"
-import user3 from "/public/logos/user3.png"
+import TrustedBy from "../components/TrustedBy";
+import { Link } from "react-router-dom";
+import { LazyLoadImage } from "react-lazy-load-image-component";
+import user1 from "/public/logos/user1.png";
+import user2 from "/public/logos/user2.png";
+import user3 from "/public/logos/user3.png";
 
 export default function Hero() {
-  const [longUrl, setLongUrl] = useState("");
-  const [shortUrl, setShortUrl] = useState("");
-  const [qrCodeUrl, setQrCodeUrl] = useState("");
-  const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState("short");
-  const [countdown, setCountdown] = useState(null);
-
-  useEffect(() => {
-    if (countdown === null) return;
-
-    if (countdown === 0) {
-      setShortUrl("");
-      setQrCodeUrl("");
-      setCountdown(null);
-    } else {
-      const timer = setTimeout(() => {
-        setCountdown((prev) => (prev !== null ? prev - 1 : null));
-      }, 1000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [countdown]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
-    try {
-      const endpoint = activeTab === "short" ? "shorten" : "qr";
-
-      const res = await fetch(
-        `https://dvilz.onrender.com/${endpoint}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ longUrl }),
-        }
-      );
-
-      const data = await res.json();
-
-      if (res.ok) {
-        if (activeTab === "short") {
-          setShortUrl(data.shortUrl);
-        } else {
-          setQrCodeUrl(data.qrCodeUrl);
-        }
-        setLongUrl("");
-        setCountdown(30);
-      } else {
-        alert(data.error || "Failed to process URL");
-      }
-    } catch (err) {
-      alert("Error connecting to backend");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const copyToClipboard = async (text) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      alert("Copied to clipboard!");
-    } catch {
-      alert("Failed to copy!");
-    }
-  };
+  const [showModal, setShowModal] = useState(false);
 
   return (
-    <main className="min-h-screen flex flex-col bg-gray-100 items-center  gap-15">
+    <main className="min-h-screen flex flex-col bg-gray-100 items-center gap-15 relative">
       <Navbar />
+
+      {/* Hero Section */}
       <div className="flex flex-col gap-8 text-center items-center justify-center">
         <div className="flex bg-white justify-center shadow-lg rounded-3xl py-1 px-2 items-center">
-
-          <div className="flex -space-x-3 px-2 ">
+          <div className="flex -space-x-3 px-2">
             <LazyLoadImage
               className="w-8 h-8 rounded-full border-2 border-white object-cover object-center"
               src={user1}
@@ -99,7 +36,9 @@ export default function Hero() {
               alt="User 3"
             />
           </div>
-          <p className="sm:max-md:text-xs text-md text-[#262626] font-instrument font-medium text-center">Shorten Your Links with Ease</p>
+          <p className="sm:max-md:text-xs text-md text-[#262626] font-instrument font-medium text-center">
+            Shorten Your Links with Ease
+          </p>
         </div>
 
         <h1 className="text-4xl font-bold sm:text-6xl text-center sm:px-80 px-4">
@@ -112,6 +51,7 @@ export default function Hero() {
           tracking to help you measure what matters.
         </h3>
 
+        {/* Tabs */}
         <div className="flex gap-4 items-center">
           <button
             className={`px-4 py-3 rounded-xl shadow-lg transition ${
@@ -137,10 +77,11 @@ export default function Hero() {
         </div>
       </div>
 
-      <div className="bg-white shadow-md h-5 w-8 rounded-3xl flex items-center justify-center">
+      <div className="bg-white shadow-md h-5 w-8 rounded-3xl flex items-center justify-center mt-4">
         <ArrowDownIcon className="w-3 h-3" />
       </div>
 
+      {/* Form Section */}
       <div className="relative w-11/12 sm:w-[65%]">
         <div className="absolute top-2 left-2 md:top-8 md:left-8 w-full h-full bg-blue-950 rounded-2xl z-0"></div>
 
@@ -150,77 +91,76 @@ export default function Hero() {
               ? "Shorten a long link"
               : "Generate a QR code"}
           </h2>
-          <p className="text-xs text-[#031f39] font-Inter">No credit card required</p>
-          <h3 className='text-[#131927] font-instrument text-sm font-semibold '>Paste your long link here</h3>
+          <p className="text-xs text-[#031f39] font-Inter">
+            No credit card required
+          </p>
+          <h3 className="text-[#131927] font-instrument text-sm font-semibold">
+            Paste your long link here
+          </h3>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-            <input
-              type="text"
-              value={longUrl}
-              onChange={(e) => setLongUrl(e.target.value)}
-              placeholder="https://example.com/my-long-url"
-              className="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
-            <button
-              type="submit"
-              disabled={loading}
-              className={`w-41 px-5 py-3.5 rounded-xl bg-[#212967] text-white text-xs font-Inter ${
-                loading
-                  ? "opacity-50 cursor-not-allowed"
-                  : "hover:bg-blue-800 transition"
-              }`}
-            >
-              {loading
-                ? activeTab === "short"
-                  ? "Fetching..."
-                  : "Generating..."
-                : activeTab === "short"
-                ? "Get your link for free"
-                : "Get your QR code"}
-            </button>
-          </form>
+        
+          <input
+            type="text"
+            placeholder="https://example.com/my-long-url"
+            className="flex-1 p-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-400 "
+          />
 
-          {shortUrl && activeTab === "short" && (
-            <div className="p-4 bg-gray-100 border border-gray-300 rounded-lg flex sm:items-center sm:justify-between gap-2">
-              <span className="text-blue-700 text-xs sm:text-sm break-all">
-                {shortUrl}
-              </span>
-              <button
-                onClick={() => copyToClipboard(shortUrl)}
-                className="w-auto px-3 py-2 bg-blue-500 text-white text-xs sm:text-sm rounded hover:bg-blue-600 transition"
-              >
-                Copy
-              </button>
-              {countdown !== null && (
-                <p className="text-xs text-gray-500 text-center sm:text-left">
-                  Disappear in {" "}
-                  <span className="font-semibold">{countdown}</span>s
-                </p>
-              )}
-            </div>
-          )}
-
-          {qrCodeUrl && activeTab === "qr" && (
-            <div className="flex flex-col items-center gap-3 p-4 bg-gray-100 border border-gray-300 rounded-lg">
-              <img src={qrCodeUrl} alt="QR Code" className="w-40 h-40" />
-              {countdown !== null && (
-                <p className="text-xs text-gray-500 text-center">
-                  QR Code will disappear in{" "}
-                  <span className="font-semibold">{countdown}</span>s
-                </p>
-              )}
-            </div>
-          )}
+          {/* Action Button */}
+          <button
+            onClick={() => setShowModal(true)}
+            className="w-41 px-5 py-3.5 rounded-xl bg-[#212967] text-white text-xs font-Inter hover:bg-blue-800 transition"
+          >
+            {activeTab === "short"
+              ? "Get your link for free"
+              : "Get your QR code"}
+          </button>
         </div>
       </div>
 
-      <div className="flex flex-col py-10 gap-4 h- w-full  text-center bg-gray-100">
+      {/* Trusted By */}
+      <div className="flex flex-col py-10 gap-4 w-full text-center bg-gray-100">
         <p>
           Trusted by 200,000+ users in 130+ countries to simplify sharing and
           expand their reach.
         </p>
-        <TrustedBy className="sm:w-[80%] " />
+        <TrustedBy className="sm:w-[80%]" />
       </div>
+
+      {/* ✨ Frosted Glass Modal */}
+      {showModal && (
+        <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-md bg-white/30">
+          <div className="bg-white/70 backdrop-blur-lg border border-white/40 shadow-2xl p-8 rounded-2xl w-[90%] sm:w-[380px] text-center">
+            <h2 className="text-2xl font-bold text-gray-800 mb-2">
+              Sign up or log in
+            </h2>
+            <p className="text-gray-700 mb-6 text-sm">
+              You need an account to use Devalyze.
+            </p>
+
+            <div className="flex flex-col gap-3">
+              <Link
+                to="/SignIn"
+                className="px-4 py-2 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition"
+              >
+                Login
+              </Link>
+              <Link
+                to="/SignUp"
+                className="px-4 py-2 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition"
+              >
+                Sign Up
+              </Link>
+            </div>
+
+            <button
+              onClick={() => setShowModal(false)}
+              className="mt-5 text-sm text-gray-600 hover:text-gray-800"
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
