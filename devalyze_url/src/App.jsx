@@ -2,6 +2,7 @@ import React from "react";
 import "./index.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import ScrollToTop from "./components/smoothui/ui/ScrollToTop";
 
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
@@ -21,6 +22,7 @@ import PublicProfile from "./pages/PublicProfile.jsx";
 function App() {
   return (
     <Router>
+      <ScrollToTop />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/SignIn" element={<SignIn />} />

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ArrowRight, Calendar } from "lucide-react";
+import { Link } from "react-router-dom";
 import {
   PieChart,
   Pie,
@@ -27,6 +28,7 @@ export default function Dashboard() {
   const [recentQrs, setRecentQrs] = useState([]);
   const [analytics, setAnalytics] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [pageStats, setPageStats] = useState(null);
 
   // Fetch all dashboard data
   useEffect(() => {
@@ -54,7 +56,6 @@ export default function Dashboard() {
         });
         const analyticsData = await analyticsRes.json();
 
-        // Combine all analytics to total clicks and scans
         let totalClicks = 0,
           totalScans = 0;
         analyticsData.forEach((a) => {
@@ -66,6 +67,13 @@ export default function Dashboard() {
           { name: "Clicks", value: totalClicks },
           { name: "Scans", value: totalScans },
         ]);
+
+        // 4️⃣ Fetch user's page stats
+        const pageRes = await fetch(`${API_BASE_URL}/api/pages/stats`, {
+          headers: getAuthHeaders(),
+        });
+        const pageData = await pageRes.json();
+        setPageStats(pageData.exists ? pageData.stats : null);
       } catch (err) {
         console.error("Dashboard fetch error:", err);
       } finally {
@@ -138,7 +146,7 @@ export default function Dashboard() {
               ))}
 
               <div className=" flex justify-center items-center gap-1 pt-2 text-gray-600 border-t w-full">
-                <a href="">See all links</a>
+                <Link to="links">See all links</Link>
                 <ArrowRight className="h-4 w-4" />
               </div>
             </ul>
@@ -178,7 +186,7 @@ export default function Dashboard() {
                 </div>
               ))}
               <div className=" flex justify-center object-bottom items-center gap-1 pt-2 text-gray-600 border-t w-full">
-                <a href="">See all links</a>
+                <Link to="qrcodes">See all Qrcodes</Link>
                 <ArrowRight className="h-4 w-4" />
               </div>
             </div>
@@ -189,20 +197,79 @@ export default function Dashboard() {
       </div>
 
       {/* 🧭 Section 2: Pages Summary + Analytics Pie Chart */}
-      <div className="grid md:grid-cols-2 gap-6">
-        {/* Pages Created */}
-        <div className="bg-white p-5 rounded-xl shadow-lg border flex flex-col justify-center items-center">
-          <h2 className="text-xl font-semibold text-gray-700 mb-2">
-            Pages Created
+      <div className="flex-col sm:flex-row gap-6 mb-2 flex">
+        {/* Pages Created (Visual Preview) */}
+
+        <div className="bg-white w-full sm:w-[49%] h-2/5 p-4 rounded-xl shadow-lg border">
+          <h2 className="text-xl font-bold text-black pb-3 border-b ">
+            Your Page
           </h2>
-          <p className="text-3xl font-bold text-blue-600">0</p>
-          <p className="text-gray-500 text-sm mt-1">
-            (Coming soon when Pages section is live)
-          </p>
+
+          {pageStats ? (
+            <div>
+              <div className="flex flex-col sm:flex-row items-center gap-4 p-2">
+                {/* Profile Image */}
+                <img
+                  src={
+                    pageStats.profileImage
+                      ? pageStats.profileImage
+                      : "https://cdn-icons-png.flaticon.com/512/149/149071.png"
+                  }
+                  alt="Profile"
+                  className="w-20 h-20 rounded-full object-cover border"
+                />
+
+                {/* Page Info */}
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-gray-900">
+                    {pageStats.profileName || "Unnamed Page"}
+                  </h3>
+                  <p className="text-sm text-gray-500">@{pageStats.username}</p>
+                  <p className="text-sm text-gray-600 mt-1 line-clamp-2">
+                    {pageStats.bio || "No bio added yet."}
+                  </p>
+
+                  {/* Stats */}
+                  <div className="mt-2 text-xs text-gray-500 space-y-1">
+                    <p>👁 {pageStats.totalViews} Views</p>
+                    <p>🔗 {pageStats.totalLinks} Links</p>
+                    <p>
+                      🗓 Created:{" "}
+                      {new Date(pageStats.createdAt).toLocaleDateString()}
+                    </p>
+                  </div>
+
+                  {/* View Page Button */}
+                  <a
+                    href={`${API_BASE_URL}/u/${pageStats.username}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block mt-3 px-4 py-2 text-sm font-semibold bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+                  >
+                    View Page
+                  </a>
+                </div>
+              </div>
+              <div className=" flex justify-center items-center gap-1 pt-2 text-gray-600 border-t w-full">
+                <Link to="pages">See Pages</Link>
+                <ArrowRight className="h-4 w-4" />
+              </div>
+            </div>
+          ) : (
+            <div className="text-center text-gray-500 py-6">
+              <p className="text-lg font-semibold mb-2">
+                You haven’t created a page yet.
+              </p>
+              <p className="text-sm">
+                Go to the <span className="font-semibold">Pages</span> section
+                to create one.
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Analytics Pie Chart */}
-        <div className="bg-white p-4 rounded-xl shadow-lg border">
+        <div className="bg-white w-full sm:w-[49%] h-2/5 p-4 rounded-xl shadow-lg border">
           <h2 className="text-xl font-bold border-b p-2 text-black mb-4">
             Analytics Overview
           </h2>
