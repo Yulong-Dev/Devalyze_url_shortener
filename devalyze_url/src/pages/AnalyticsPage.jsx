@@ -108,15 +108,15 @@ export default function AnalyticsPage() {
         <div className="grid grid-cols-3 self-center  sm:grid-cols-4 gap-2 sm:gap-20 mb-6">
           <div className="bg-blue-50 p-2 rounded-lg shadow-sm text-center">
             <p className="text-gray-500 text-sm">Scans</p>
-            <h3 className="text-2xl font-bold text-blue-600">{totalViews}</h3>
+            <h3 className="text-lg sm:text-2xl font-bold text-blue-600">{totalViews}</h3>
           </div>
           <div className="bg-orange-50 p-2 rounded-lg shadow-sm text-center">
             <p className="text-gray-500 text-sm">Clicks</p>
-            <h3 className="text-2xl font-bold text-orange-600">{totalClicks}</h3>
+            <h3 className="text-lg sm:text-2xl font-bold text-orange-600">{totalClicks}</h3>
           </div>
           <div className="bg-green-50 p-2 rounded-lg shadow-sm text-center">
             <p className="text-gray-500 text-sm">CTR</p>
-            <h3 className="text-2xl font-bold text-green-600">{ctr}%</h3>
+            <h3 className="text-lg sm:text-2xl font-bold text-green-600">{ctr}%</h3>
           </div>
         </div>
 
