@@ -245,11 +245,15 @@ router.get("/stats", authMiddleware, async (req, res) => {
       });
     }
 
-    // Calculate stats
+    // Calculate stats - ✅ NOW INCLUDING ALL NECESSARY FIELDS
     const stats = {
       totalViews: page.views,
       totalLinks: page.links.length,
       username: page.username,
+      profileName: page.profileName,       // ✅ ADDED
+      bio: page.bio,                        // ✅ ADDED
+      profileImage: page.profileImage,      // ✅ ADDED
+      theme: page.theme,                    // ✅ ADDED (bonus)
       url: `/@${page.username}`,
       isPublished: page.isPublished,
       createdAt: page.createdAt,

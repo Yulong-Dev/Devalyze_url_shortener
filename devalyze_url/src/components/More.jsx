@@ -1,6 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa";
 
 const More = () => {
@@ -52,13 +53,14 @@ const More = () => {
     <p className="text-sm/7 md:text-base font-instrument max-w-[75%] font-light">
       Shorten, scan, and share everything you need to connect with your audience in one simple platform.
     </p>
-    <motion.button 
-      className="flex justify-center items-center py-3 px-6 rounded-xl bg-[#4e61f6] hover:bg-blue-700 text-sm font-medium mt-4 font-instrument"
+    <Link
+        to="/SignUp"
+      className="flex justify-center items-center py-3 px-6 rounded-xl bg-[#4e61f6] hover:bg-blue-700 text-sm font-medium mt-4 font-instrument cursor-pointer"
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
       Get started for free
-    </motion.button>
+    </Link>
   </motion.div>
 
   {/* Cards Section */}

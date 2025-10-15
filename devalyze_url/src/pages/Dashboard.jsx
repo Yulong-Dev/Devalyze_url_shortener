@@ -69,11 +69,27 @@ export default function Dashboard() {
         ]);
 
         // 4️⃣ Fetch user's page stats
-        const pageRes = await fetch(`${API_BASE_URL}/api/pages/stats`, {
-          headers: getAuthHeaders(),
-        });
-        const pageData = await pageRes.json();
-        setPageStats(pageData.exists ? pageData.stats : null);
+          // 4️⃣ Fetch user's page stats
+          const pageRes = await fetch(`${API_BASE_URL}/api/pages/stats`, {
+              headers: getAuthHeaders(),
+          });
+          const pageData = await pageRes.json();
+          console.log("=== PAGE STATS API RESPONSE ===");
+          console.log("Full response:", pageData);
+          console.log("Has 'exists' field?", pageData.exists);
+          console.log("Stats object:", pageData.stats);
+          console.log("Profile Name:", pageData.stats?.profileName);
+          console.log("Bio:", pageData.stats?.bio);
+          console.log("Username:", pageData.stats?.username);
+          console.log("================================");
+// Debug: Check what the API returns
+          console.log("Page data from API:", pageData);
+
+          if (pageData.exists && pageData.stats) {
+              setPageStats(pageData.stats);
+          } else {
+              setPageStats(null);
+          }
       } catch (err) {
         console.error("Dashboard fetch error:", err);
       } finally {
