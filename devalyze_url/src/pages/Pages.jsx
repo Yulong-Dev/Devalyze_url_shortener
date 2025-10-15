@@ -15,7 +15,7 @@ import UsernameInput from "../components/UsernameInput.jsx";
 import { Loader } from "lucide-react";
 import ShareButton from "../components/ShareButton.jsx";
 import imageCompression from "browser-image-compression";
-
+import ImageCropModal from "../components/smoothui/ImageCropModal.jsx";
 const STORAGE_KEYS = {
     PROFILE: "devalyze_pages_profile",
     LINKS: "devalyze_pages_links",
@@ -43,6 +43,8 @@ function Pages() {
     const [pageExists, setPageExists] = useState(false);
     const [pageStats, setPageStats] = useState(null);
     const [shareUrl, setShareUrl] = useState("");
+    const [cropModalOpen, setCropModalOpen] = useState(false);
+    const [tempImage, setTempImage] = useState(null);
 
     // Load saved data when component mounts
     useEffect(() => {
@@ -171,24 +173,29 @@ function Pages() {
 
         try {
             const options = {
-                maxSizeMB: 0.2,
-                maxWidthOrHeight: 1280,
+                maxSizeMB: 2, // Increase for cropping
+                maxWidthOrHeight: 1920,
                 useWebWorker: true,
-                initialQuality: 0.6,
             };
 
             const compressedFile = await imageCompression(file, options);
 
             const reader = new FileReader();
             reader.onload = (event) => {
-                setGetImage(event.target.result);
+                setTempImage(event.target.result);
+                setCropModalOpen(true); // Open crop modal
             };
             reader.readAsDataURL(compressedFile);
         } catch (error) {
             console.error("Image compression failed:", error);
-            toast.error("Failed to compress image. Please try again.");
+            toast.error("Failed to process image. Please try again.");
         }
     }
+    const handleCropComplete = (croppedImage) => {
+        setGetImage(croppedImage);
+        setTempImage(null);
+        toast.success("✂️ Image cropped successfully!");
+    };
 
     function RemoveImages() {
         setGetImage(null);
@@ -323,6 +330,15 @@ function Pages() {
                                                 </div>
                                             )}
                                         </div>
+                                        <ImageCropModal
+                                            open={cropModalOpen}
+                                            onClose={() => {
+                                                setCropModalOpen(false);
+                                                setTempImage(null);
+                                            }}
+                                            imageSrc={tempImage}
+                                            onCropComplete={handleCropComplete}
+                                        />
                                     </div>
 
                                     <div className="flex flex-col gap-3 w-full ">
