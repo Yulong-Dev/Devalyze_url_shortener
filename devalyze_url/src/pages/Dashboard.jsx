@@ -10,6 +10,10 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
+export const FRONTEND_URL = import.meta.env.DEV
+  ? "http://localhost:5173"
+  : "https://devalyze.vercel.app";
+
 const API_BASE_URL =
   import.meta.env.MODE === "development"
     ? "http://localhost:5000"
@@ -257,7 +261,7 @@ export default function Dashboard() {
 
                   {/* View Page Button */}
                   <a
-                    href={`${API_BASE_URL}/u/${pageStats.username}`}
+                    href={`${FRONTEND_URL}/u/${pageStats.username}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-block mt-3 px-4 py-2 text-sm font-semibold bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
