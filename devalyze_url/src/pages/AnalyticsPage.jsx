@@ -105,16 +105,16 @@ export default function AnalyticsPage() {
         </h2>
 
         {/* ✅ Stats Cards Section */}
-        <div className="grid grid-cols-3 sm:grid-cols-3 gap-4 mb-6 p-2">
-          <div className="bg-blue-50 p-4 rounded-lg shadow-sm text-center">
+        <div className="grid grid-cols-3 sm:grid-cols-3 gap-4 mb-6">
+          <div className="bg-blue-50 p-2 rounded-lg shadow-sm text-center">
             <p className="text-gray-500 text-sm">Scans</p>
             <h3 className="text-lg sm:text-2xl font-bold text-blue-600">{totalViews}</h3>
           </div>
-          <div className="bg-orange-50 p-4 rounded-lg shadow-sm text-center">
+          <div className="bg-orange-50 p-2 rounded-lg shadow-sm text-center">
             <p className="text-gray-500 text-sm">Clicks</p>
             <h3 className="text-lg sm:text-2xl font-bold text-orange-600">{totalClicks}</h3>
           </div>
-          <div className="bg-green-50 p-4 rounded-lg shadow-sm text-center">
+          <div className="bg-green-50 p-2 rounded-lg shadow-sm text-center">
             <p className="text-gray-500 text-sm">CTR</p>
             <h3 className="text-lg sm:text-2xl font-bold text-green-600">{ctr}%</h3>
           </div>
