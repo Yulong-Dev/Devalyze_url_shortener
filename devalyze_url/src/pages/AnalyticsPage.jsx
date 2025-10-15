@@ -122,7 +122,7 @@ export default function AnalyticsPage() {
 
         {/* ✅ Chart Section */}
         {data.length === 0 ? (
-          <p className="text-gray-500">No analytics available yet.</p>
+          <p className="text-gray-500 p-2">No analytics available yet.</p>
         ) : (
           <div style={{ width: "100%", height: 420 }}>
             <ResponsiveContainer>
