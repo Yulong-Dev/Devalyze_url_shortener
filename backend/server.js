@@ -11,6 +11,8 @@ const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const analyticsRoutes = require("./routes/analytics");
 const pageRoutes = require("./routes/pages");
+const googleAuthRouter = require('./config/GoogleAuth'); // or wherever your file is
+
 
 
 // DB connection
@@ -41,7 +43,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/analytics", analyticsRoutes);
 app.use("/api/pages", pageRoutes);
-
+app.use('/api/auth', googleAuthRouter);
 
 // Connect to MongoDB
 connectDB();
