@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Link2, LayoutDashboard, QrCode, BarChart3 } from 'lucide-react';
 
 function Services() {
@@ -118,9 +119,9 @@ function Services() {
                     <p className="text-white text-lg mb-6">
                         Ready to transform your link management?
                     </p>
-                    <button className="px-8 py-4 bg-[#6363F1] text-white font-semibold rounded-lg hover:bg-[#5252E0] transition-colors duration-300 shadow-lg hover:shadow-xl">
+                    <Link to={'/SignUp'} className="px-8 py-4 bg-[#6363F1] text-white font-semibold rounded-lg hover:bg-[#5252E0] transition-colors duration-300 shadow-lg hover:shadow-xl">
                         Get Started Free
-                    </button>
+                    </Link>
                 </motion.div>
             </div>
         </div>

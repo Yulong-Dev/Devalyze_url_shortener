@@ -19,6 +19,7 @@ import Support from "./pages/Support.jsx";
 import SettingsPage from "./pages/SettingsPage";
 import PublicProfile from "./pages/PublicProfile.jsx";
 import Services from "./pages/Services.jsx";
+import About from "./pages/AboutUs.jsx";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
         <Route path="/SignIn" element={<SignIn />} />
         <Route path="/SignUp" element={<SignUp />} />
           <Route path="/services" element={<Services />} />
+          <Route path="/about" element={<About />} />
 
         <Route
           path="/dashboard"
