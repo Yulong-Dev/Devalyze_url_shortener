@@ -97,7 +97,7 @@ const DashboardLayout = () => {
     const handleSignOut = () => {
         localStorage.removeItem("token");
         toast.success("Signed out successfully");
-        navigate("/SignIn");
+        navigate("/");
     };
 
     // Avatar
