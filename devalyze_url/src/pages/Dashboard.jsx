@@ -102,7 +102,7 @@ export default function Dashboard() {
       {/* Section 1: Recent Links + QR Codes */}
       <div className="flex flex-col lg:flex-row gap-4 sm:gap-6 mb-4 sm:mb-6 w-full">
         {/* Recent Links */}
-        <div className="bg-white w-full lg:w-[calc(50%-0.75rem)] p-4 sm:p-5 rounded-xl shadow-lg border">
+        <div className="bg-white w-full lg:w-[calc(50%-0.75rem)] h-4/5 p-4 sm:p-5 rounded-xl shadow-lg border">
           <h2 className="text-lg sm:text-xl font-bold text-black mb-3">
             Latest Links
           </h2>
@@ -161,7 +161,7 @@ export default function Dashboard() {
         </div>
 
         {/* Recent QR Codes */}
-        <div className="bg-white w-full lg:w-[calc(50%-0.75rem)] p-4 sm:p-5 rounded-xl shadow-lg border">
+        <div className="bg-white w-full lg:w-[calc(50%-0.75rem)] h-4/5 p-4 sm:p-5 rounded-xl shadow-lg border">
           <h2 className="text-lg sm:text-xl font-bold text-black mb-3">
             Latest QR Codes
           </h2>
@@ -209,7 +209,7 @@ export default function Dashboard() {
       {/* Section 2: Page Stats + Analytics */}
       <div className="flex flex-col lg:flex-row gap-4 sm:gap-6">
         {/* Page Section */}
-        <div className="bg-white w-full lg:w-[calc(50%-0.75rem)] p-4 sm:p-5 rounded-xl shadow-lg border">
+        <div className="bg-white w-full lg:w-[calc(50%-0.75rem)] h-4/5 p-4 sm:p-5 rounded-xl shadow-lg border">
           <h2 className="text-lg sm:text-xl font-bold text-black pb-3 mb-3 border-b">
             Your Page
           </h2>
