@@ -27,12 +27,8 @@ app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
 
 // Middleware
 app.use(cors({
-  origin: [
-    "http://localhost:5173",   // for local dev
-    "https://devalyze.vercel.app" // production frontend
-  ],
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
-  credentials: true,
+  origin: "*",
+  methods: "*",
 }));
 app.use(express.json());
 
