@@ -124,7 +124,7 @@ export default function AnalyticsPage() {
         {data.length === 0 ? (
           <p className="text-gray-500 p-2">No analytics available yet.</p>
         ) : (
-          <div className="p-1" style={{ width: "99%", height: 420 }}>
+          <div style={{ width: "99%", height: 420 }}>
             <ResponsiveContainer>
               <LineChart data={data}>
                 <CartesianGrid strokeDasharray="3 3" />
