@@ -11,9 +11,7 @@ const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
 const analyticsRoutes = require("./routes/analytics");
 const pageRoutes = require("./routes/pages");
-const googleAuthRouter = require('./config/GoogleAuth'); // or wherever your file is
-
-
+const googleAuthRouter = require('./config/GoogleAuth');
 
 // DB connection
 const connectDB = require("./config/db");
@@ -25,11 +23,28 @@ const PORT = process.env.PORT || 5000;
 app.use(bodyParser.json({ limit: "10mb" }));
 app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
 
-// Middleware
+// ✅ CORS Configuration - Supports both production and development
+const allowedOrigins = [
+  'https://devalyze.vercel.app',  // Production frontend
+  'http://localhost:3000',         // React dev server
+  'http://localhost:5173',         // Vite dev server
+  'http://localhost:5174'          // Alternative Vite port
+];
+
 app.use(cors({
-  origin: "*",
-  methods: "*",
+  origin: function(origin, callback) {
+    // Allow requests with no origin (mobile apps, Postman, curl, etc.)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,  // Allow cookies and credentials
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
+
 app.use(express.json());
 
 // Routes
