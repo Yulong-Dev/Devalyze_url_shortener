@@ -1,9 +1,9 @@
 // src/services/qrService.js
 
 const API_BASE_URL =
-  import.meta.env.MODE === "development"
-    ? "http://localhost:5000" // Local backend
-    : "https://dvilz.onrender.com"; // Render backend
+    import.meta.env.MODE === "development"
+        ? import.meta.env.VITE_API_BASE_URL_DEV
+        : import.meta.env.VITE_API_BASE_URL;
 
 // Helper: get token from localStorage
 const getAuthConfig = () => {

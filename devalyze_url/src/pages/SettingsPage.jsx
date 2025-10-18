@@ -3,9 +3,9 @@ import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 
 const API_BASE_URL =
-  import.meta.env.MODE === "development"
-    ? "http://localhost:5000/api"
-    : "https://dvilz.onrender.com/api";
+    import.meta.env.MODE === "development"
+        ? import.meta.env.VITE_API_BASE_URL_DEV
+        : import.meta.env.VITE_API_BASE_URL;
 
 const getAuthConfig = () => {
   const token = localStorage.getItem("token");

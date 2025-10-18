@@ -10,14 +10,12 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-export const FRONTEND_URL = import.meta.env.DEV
-  ? "http://localhost:5173"
-  : "https://devalyze.vercel.app";
+export const FRONTEND_URL = import.meta.env.VITE_FRONTEND_URL || "http://localhost:5173";
 
 const API_BASE_URL =
-  import.meta.env.MODE === "development"
-    ? "http://localhost:5000"
-    : "https://dvilz.onrender.com";
+    import.meta.env.MODE === "development"
+        ? import.meta.env.VITE_API_BASE_URL_DEV
+        : import.meta.env.VITE_API_BASE_URL;
 
 const getAuthHeaders = () => {
   const token = localStorage.getItem("token");

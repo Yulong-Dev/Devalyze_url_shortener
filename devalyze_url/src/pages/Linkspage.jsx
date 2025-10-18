@@ -4,9 +4,9 @@ import { Copy, Trash2, ExternalLink, Loader2 } from "lucide-react";
 import { toast } from "react-toastify";
 
 const SHORT_BASE_URL =
-  import.meta.env.MODE === "development"
-    ? "http://localhost:5000" // Backend base for redirects (dev)
-    : "https://dvilz.onrender.com"; // Backend base for redirects (prod)
+    import.meta.env.MODE === "development"
+        ? import.meta.env.VITE_API_BASE_URL_DEV
+        : import.meta.env.VITE_API_BASE_URL;
 
 const LinksPage = () => {
   const [longUrl, setLongUrl] = useState("");

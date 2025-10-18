@@ -18,8 +18,8 @@ const SignIn = () => {
 
     const API_BASE_URL =
         import.meta.env.MODE === "development"
-            ? "http://localhost:5000"
-            : "https://dvilz.onrender.com";
+            ? import.meta.env.VITE_API_BASE_URL_DEV
+            : import.meta.env.VITE_API_BASE_URL;
 
     // Regular email/password login
     const handleLogin = async (e) => {

@@ -69,10 +69,10 @@ const DashboardLayout = () => {
   const createRef = useRef(null);
   const navigate = useNavigate();
 
-  const API_BASE_URL =
-    import.meta.env.MODE === "development"
-      ? "http://localhost:5000"
-      : "https://dvilz.onrender.com";
+    const API_BASE_URL =
+        import.meta.env.MODE === "development"
+            ? import.meta.env.VITE_API_BASE_URL_DEV
+            : import.meta.env.VITE_API_BASE_URL;
 
   useEffect(() => {
     const checkAuth = async () => {
