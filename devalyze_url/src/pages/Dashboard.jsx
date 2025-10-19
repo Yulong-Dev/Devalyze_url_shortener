@@ -21,34 +21,41 @@ const Dashboard = () => {
     const [pageStats, setPageStats] = useState(null);
     const [loading, setLoading] = useState(false);
 
-    // 🔐 Get Bearer token for authenticated endpoints
-    const getAuthHeaders = () => {
-        const token = localStorage.getItem("token");
-        return token ? { Authorization: `Bearer ${token}` } : {};
-    };
-
     useEffect(() => {
         const fetchDashboard = async () => {
             try {
                 setLoading(true);
 
-                // 🧩 Fetch Links
-                const linkResponse = await api.get("/my-urls", {
-                    headers: getAuthHeaders(),
+                // ✅ Get token from localStorage
+                const token = localStorage.getItem("token");
+
+                if (!token) {
+                    console.error("No token found - user may not be logged in");
+                    setLoading(false);
+                    return;
+                }
+
+                const authHeaders = {
+                    Authorization: `Bearer ${token}`,
+                };
+
+                // 🧩 Fetch Links - FIXED ENDPOINT
+                const linkResponse = await api.get("/api/urls/my-urls", {
+                    headers: authHeaders,
                 });
                 const linkData = await handleResponse(linkResponse);
                 setRecentLinks(Array.isArray(linkData) ? linkData.slice(0, 3) : []);
 
-                // 🧩 Fetch QR Codes
-                const qrResponse = await api.get("/api/qr", {
-                    headers: getAuthHeaders(),
+                // 🧩 Fetch QR Codes - FIXED ENDPOINT
+                const qrResponse = await api.get("/api/qr/my-qrs", {
+                    headers: authHeaders,
                 });
                 const qrData = await handleResponse(qrResponse);
                 setRecentQrs(Array.isArray(qrData) ? qrData.slice(0, 3) : []);
 
                 // 🧩 Fetch Analytics
                 const analyticsResponse = await api.get("/api/analytics", {
-                    headers: getAuthHeaders(),
+                    headers: authHeaders,
                 });
                 const analyticsData = await handleResponse(analyticsResponse);
 
@@ -66,13 +73,21 @@ const Dashboard = () => {
 
                 // 🧩 Fetch Page Stats
                 const pageResponse = await api.get("/api/pages/stats", {
-                    headers: getAuthHeaders(),
+                    headers: authHeaders,
                 });
                 const pageData = await handleResponse(pageResponse);
 
                 setPageStats(pageData.exists && pageData.stats ? pageData.stats : null);
             } catch (err) {
                 console.error("Dashboard fetch error:", err);
+
+                // If 401, token might be invalid
+                if (err.message.includes("401")) {
+                    console.error("Authentication failed - token may be expired");
+                    localStorage.removeItem("token");
+                    // Optionally redirect to login
+                    // window.location.href = "/login";
+                }
             } finally {
                 setLoading(false);
             }

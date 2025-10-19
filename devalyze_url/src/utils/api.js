@@ -26,9 +26,16 @@ async function apiRequest(endpoint, options = {}) {
         }
     }
 
+    // ✅ Get auth token from localStorage
+    const authToken = localStorage.getItem("token");
+
     const headers = {
         'Content-Type': 'application/json',
+        // ✅ Always include Authorization header if token exists
+        ...(authToken ? { 'Authorization': `Bearer ${authToken}` } : {}),
+        // ✅ Include CSRF token for non-safe methods
         ...(csrfToken ? { 'X-CSRF-Token': csrfToken } : {}),
+        // ✅ Allow custom headers to override defaults
         ...options.headers,
     };
 
@@ -44,13 +51,22 @@ async function apiRequest(endpoint, options = {}) {
         // Retry once if CSRF rejected
         if (response.status === 403) {
             const errorData = await response.clone().json().catch(() => null);
-            if (errorData?.code?.includes('CSRF')) {
+            if (errorData?.error?.includes('CSRF') || errorData?.code?.includes('CSRF')) {
+                console.log("🔄 CSRF token invalid, retrying...");
                 csrfToken = await fetchCsrfToken();
                 if (csrfToken) {
                     config.headers['X-CSRF-Token'] = csrfToken;
                     response = await fetch(`${API_BASE_URL}${endpoint}`, config);
                 }
             }
+        }
+
+        // Handle 401 Unauthorized
+        if (response.status === 401) {
+            console.error("❌ 401 Unauthorized - Token may be invalid or expired");
+            // Optionally clear token and redirect to login
+            // localStorage.removeItem("token");
+            // window.location.href = "/login";
         }
 
         return response;
@@ -65,11 +81,23 @@ async function apiRequest(endpoint, options = {}) {
  * Convenience wrappers
  */
 export const api = {
-    get: (endpoint, options) => apiRequest(endpoint, { ...options, method: 'GET' }),
-    post: (endpoint, data, options) => apiRequest(endpoint, { ...options, method: 'POST', body: JSON.stringify(data) }),
-    put: (endpoint, data, options) => apiRequest(endpoint, { ...options, method: 'PUT', body: JSON.stringify(data) }),
-    patch: (endpoint, data, options) => apiRequest(endpoint, { ...options, method: 'PATCH', body: JSON.stringify(data) }),
-    delete: (endpoint, options) => apiRequest(endpoint, { ...options, method: 'DELETE' }),
+    get: (endpoint, options = {}) => apiRequest(endpoint, { ...options, method: 'GET' }),
+    post: (endpoint, data, options = {}) => apiRequest(endpoint, {
+        ...options,
+        method: 'POST',
+        body: JSON.stringify(data)
+    }),
+    put: (endpoint, data, options = {}) => apiRequest(endpoint, {
+        ...options,
+        method: 'PUT',
+        body: JSON.stringify(data)
+    }),
+    patch: (endpoint, data, options = {}) => apiRequest(endpoint, {
+        ...options,
+        method: 'PATCH',
+        body: JSON.stringify(data)
+    }),
+    delete: (endpoint, options = {}) => apiRequest(endpoint, { ...options, method: 'DELETE' }),
     request: apiRequest,
 };
 
@@ -82,8 +110,12 @@ export async function handleResponse(response) {
         try {
             const errorData = await response.json();
             errorMessage = errorData.message || errorData.error || errorMessage;
-        } catch {}
-        throw new Error(errorMessage);
+        } catch {
+            // If JSON parsing fails, use default error message
+        }
+        const error = new Error(errorMessage);
+        error.status = response.status;
+        throw error;
     }
     return response.json();
 }
