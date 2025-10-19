@@ -122,9 +122,7 @@ const userSchema = new mongoose.Schema({
   timestamps: true,
 });
 
-// Indexes for better query performance
-userSchema.index({ email: 1 });
-userSchema.index({ googleId: 1 });
+// Indexes for token-based queries only (email and googleId already indexed in schema)
 userSchema.index({ verificationToken: 1 });
 userSchema.index({ resetPasswordToken: 1 });
 
