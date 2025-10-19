@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { toast } from "react-toastify";
-import { api, handleResponse } from "../../utils/api"; // ✅ fixed relative path
+import { api, handleResponse } from "../utils/api"; // ✅ fixed relative path
 
 const LANGUAGES = ["English", "Spanish", "French", "German", "Yoruba", "Hausa"];
 const COUNTRIES = ["Nigeria", "United States", "Canada", "United Kingdom", "Ghana"];

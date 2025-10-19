@@ -10,9 +10,6 @@ import logo from "/public/logos/devalyse.png";
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
 
-    // Motion version of React Router Link
-    const MotionLink = motion(Link);
-
     // Animation variants
     const menuVariants = {
         hidden: { opacity: 0, x: "100%" },
@@ -99,19 +96,23 @@ export default function Navbar() {
                 </motion.button>
 
                 {links.map((item, i) => (
-                    <MotionLink
+                    <Link
                         key={item.name}
                         to={item.link}
                         className="hover:text-black text-[#4D4D4D] text-sm lg:text-md font-normal px-2 lg:px-3 transition-colors"
-                        custom={i}
-                        variants={navItem}
-                        initial="hidden"
-                        animate="visible"
-                        whileHover={{ color: "#000", scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
                     >
-                        {item.name}
-                    </MotionLink>
+                        <motion.span
+                            custom={i}
+                            variants={navItem}
+                            initial="hidden"
+                            animate="visible"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="inline-block"
+                        >
+                            {item.name}
+                        </motion.span>
+                    </Link>
                 ))}
             </motion.div>
 
@@ -122,23 +123,25 @@ export default function Navbar() {
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.4 }}
             >
-                <MotionLink
-                    to="/SignUp"
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="text-sm lg:text-md font-normal px-4 lg:px-5 py-2 lg:py-2.5 rounded-xl bg-white text-black shadow-sm hover:bg-gray-100 transition-colors whitespace-nowrap"
-                >
-                    Sign Up
-                </MotionLink>
+                <Link to="/SignUp">
+                    <motion.button
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="text-sm lg:text-md font-normal px-4 lg:px-5 py-2 lg:py-2.5 rounded-xl bg-white text-black shadow-sm hover:bg-gray-100 transition-colors whitespace-nowrap"
+                    >
+                        Sign Up
+                    </motion.button>
+                </Link>
 
-                <MotionLink
-                    to="/SignIn"
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.98 }}
-                    className="text-sm lg:text-md font-normal px-4 lg:px-5 py-2 lg:py-2.5 rounded-xl shadow-sm bg-blue-500 text-white hover:bg-blue-600 transition-colors whitespace-nowrap"
-                >
-                    Login
-                </MotionLink>
+                <Link to="/SignIn">
+                    <motion.button
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="text-sm lg:text-md font-normal px-4 lg:px-5 py-2 lg:py-2.5 rounded-xl shadow-sm bg-blue-500 text-white hover:bg-blue-600 transition-colors whitespace-nowrap"
+                    >
+                        Login
+                    </motion.button>
+                </Link>
             </motion.div>
 
             {/* Mobile Menu Toggle */}
@@ -218,19 +221,22 @@ export default function Navbar() {
 
                                 {/* Navigation Links */}
                                 {links.map((item, i) => (
-                                    <MotionLink
+                                    <Link
                                         key={item.name}
                                         to={item.link}
-                                        className="w-full px-4 py-3 text-[#4D4D4D] hover:text-black hover:bg-gray-50 text-base font-normal rounded-lg transition-colors"
-                                        custom={i + 1}
-                                        variants={navItem}
-                                        initial="hidden"
-                                        animate="visible"
                                         onClick={() => setIsOpen(false)}
-                                        whileTap={{ scale: 0.98 }}
                                     >
-                                        {item.name}
-                                    </MotionLink>
+                                        <motion.div
+                                            className="w-full px-4 py-3 text-[#4D4D4D] hover:text-black hover:bg-gray-50 text-base font-normal rounded-lg transition-colors"
+                                            custom={i + 1}
+                                            variants={navItem}
+                                            initial="hidden"
+                                            animate="visible"
+                                            whileTap={{ scale: 0.98 }}
+                                        >
+                                            {item.name}
+                                        </motion.div>
+                                    </Link>
                                 ))}
 
                                 {/* Divider */}
@@ -238,30 +244,36 @@ export default function Navbar() {
 
                                 {/* Mobile Auth Buttons */}
                                 <div className="flex flex-col gap-3">
-                                    <MotionLink
+                                    <Link
                                         to="/SignUp"
-                                        variants={navItem}
-                                        custom={links.length + 1}
-                                        initial="hidden"
-                                        animate="visible"
                                         onClick={() => setIsOpen(false)}
-                                        whileTap={{ scale: 0.98 }}
-                                        className="w-full px-5 py-3 rounded-xl bg-white text-black border-2 border-gray-300 text-base font-medium hover:bg-gray-50 transition-colors text-center"
                                     >
-                                        Sign Up
-                                    </MotionLink>
-                                    <MotionLink
+                                        <motion.button
+                                            variants={navItem}
+                                            custom={links.length + 1}
+                                            initial="hidden"
+                                            animate="visible"
+                                            whileTap={{ scale: 0.98 }}
+                                            className="w-full px-5 py-3 rounded-xl bg-white text-black border-2 border-gray-300 text-base font-medium hover:bg-gray-50 transition-colors text-center"
+                                        >
+                                            Sign Up
+                                        </motion.button>
+                                    </Link>
+                                    <Link
                                         to="/SignIn"
-                                        variants={navItem}
-                                        custom={links.length + 2}
-                                        initial="hidden"
-                                        animate="visible"
                                         onClick={() => setIsOpen(false)}
-                                        whileTap={{ scale: 0.98 }}
-                                        className="w-full px-5 py-3 rounded-xl bg-blue-500 text-white text-base font-medium hover:bg-blue-600 transition-colors text-center shadow-md"
                                     >
-                                        Login
-                                    </MotionLink>
+                                        <motion.button
+                                            variants={navItem}
+                                            custom={links.length + 2}
+                                            initial="hidden"
+                                            animate="visible"
+                                            whileTap={{ scale: 0.98 }}
+                                            className="w-full px-5 py-3 rounded-xl bg-blue-500 text-white text-base font-medium hover:bg-blue-600 transition-colors text-center shadow-md"
+                                        >
+                                            Login
+                                        </motion.button>
+                                    </Link>
                                 </div>
                             </div>
                         </motion.div>
