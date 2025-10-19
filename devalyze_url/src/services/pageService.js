@@ -1,150 +1,87 @@
-// src/services/pageService.js
-
-const API_BASE_URL =
-    import.meta.env.MODE === "development"
-        ? import.meta.env.VITE_API_BASE_URL_DEV
-        : import.meta.env.VITE_API_BASE_URL;
+// ✅ Add this import at the top
+import { api, handleResponse } from '../utils/api';
 
 const getAuthHeaders = () => {
     const token = localStorage.getItem("token");
     return {
         Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
     };
 };
 
-/**
- * Save or update user's page
- */
+// ✅ Update savePage function
 export const savePage = async (pageData) => {
     try {
-        const res = await fetch(`${API_BASE_URL}/pages`, {
-            method: "POST",
-            headers: getAuthHeaders(),
-            body: JSON.stringify(pageData),
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-            throw new Error(data.error || data.message || "Failed to save page");
-        }
-
-        return data;
+        const response = await api.post(
+            '/pages',
+            pageData,
+            { headers: getAuthHeaders() }
+        );
+        return await handleResponse(response);
     } catch (error) {
         console.error("Save page error:", error);
         throw error;
     }
 };
 
-/**
- * Get logged-in user's page
- */
+// ✅ Update getMyPage function
 export const getMyPage = async () => {
     try {
-        const res = await fetch(`${API_BASE_URL}/pages/my-page`, {
-            headers: getAuthHeaders(),
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-            throw new Error(data.error || data.message || "Failed to fetch page");
-        }
-
-        return data;
+        const response = await api.get(
+            '/pages/my-page',
+            { headers: getAuthHeaders() }
+        );
+        return await handleResponse(response);
     } catch (error) {
         console.error("Get my page error:", error);
         throw error;
     }
 };
 
-/**
- * Check if username is available
- */
+// ✅ Update checkUsername function
 export const checkUsername = async (username) => {
     try {
-        const res = await fetch(
-            `${API_BASE_URL}/pages/check-username/${username}`,
-            {
-                headers: getAuthHeaders(),
-            }
+        const response = await api.get(
+            `/pages/check-username/${username}`,
+            { headers: getAuthHeaders() }
         );
-
-        const data = await res.json();
-
-        if (!res.ok) {
-            throw new Error(data.error || data.message || "Failed to check username");
-        }
-
-        return data;
+        return await handleResponse(response);
     } catch (error) {
-        console.error("Check username error:", error);
         throw error;
     }
 };
 
-/**
- * Get public page by username (no auth needed)
- */
+// ✅ Update getPublicPage function (NO AUTH NEEDED)
 export const getPublicPage = async (username) => {
     try {
-        const res = await fetch(`${API_BASE_URL}/pages/u/${username}`);
-
-        const data = await res.json();
-
-        if (!res.ok) {
-            throw new Error(data.error || data.message || "Page not found");
-        }
-
-        return data;
+        const response = await api.get(`/pages/u/${username}`);
+        return await handleResponse(response);
     } catch (error) {
-        console.error("Get public page error:", error);
         throw error;
     }
 };
 
-/**
- * Delete user's page
- */
+// ✅ Update deletePage function
 export const deletePage = async () => {
     try {
-        const res = await fetch(`${API_BASE_URL}/pages/my-page`, {
-            method: "DELETE",
-            headers: getAuthHeaders(),
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-            throw new Error(data.error || data.message || "Failed to delete page");
-        }
-
-        return data;
+        const response = await api.delete(
+            '/pages/my-page',
+            { headers: getAuthHeaders() }
+        );
+        return await handleResponse(response);
     } catch (error) {
-        console.error("Delete page error:", error);
         throw error;
     }
 };
 
-/**
- * Get page statistics
- */
+// ✅ Update getPageStats function
 export const getPageStats = async () => {
     try {
-        const res = await fetch(`${API_BASE_URL}/pages/stats`, {
-            headers: getAuthHeaders(),
-        });
-
-        const data = await res.json();
-
-        if (!res.ok) {
-            throw new Error(data.error || data.message || "Failed to fetch stats");
-        }
-
-        return data;
+        const response = await api.get(
+            '/pages/stats',
+            { headers: getAuthHeaders() }
+        );
+        return await handleResponse(response);
     } catch (error) {
-        console.error("Get page stats error:", error);
         throw error;
     }
 };

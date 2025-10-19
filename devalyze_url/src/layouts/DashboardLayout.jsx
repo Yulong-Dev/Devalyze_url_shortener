@@ -24,6 +24,7 @@ import {
   X,
 } from "lucide-react";
 import { toast } from "react-toastify";
+import {api, handleResponse} from '../utils/api';
 
 const navLinks = [
   {
@@ -74,28 +75,29 @@ const DashboardLayout = () => {
             ? import.meta.env.VITE_API_BASE_URL_DEV
             : import.meta.env.VITE_API_BASE_URL;
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        toast.warn("Please log in to access your dashboard");
-        navigate("/SignIn");
-        return;
-      }
+    useEffect(() => {
+        const checkAuth = async () => {
+            const token = localStorage.getItem("token");
+            if (!token) {
+                toast.warn("Please log in to access your dashboard");
+                navigate("/SignIn");
+                return;
+            }
 
-      try {
-        const res = await axios.get(`${API_BASE_URL}/api/users/me`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setUser(res.data);
-      } catch {
-        localStorage.removeItem("token");
-        toast.error("Session expired. Please log in again.");
-        navigate("/SignIn");
-      }
-    };
-    checkAuth();
-  }, [navigate]);
+            try {
+                const response = await api.get('/api/users/me', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                const userData = await handleResponse(response);
+                setUser(userData);
+            } catch (error) {
+                localStorage.removeItem("token");
+                toast.error("Session expired. Please log in again.");
+                navigate("/SignIn");
+            }
+        };
+        checkAuth();
+    }, [navigate]);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
