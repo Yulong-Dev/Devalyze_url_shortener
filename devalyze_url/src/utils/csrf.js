@@ -1,28 +1,25 @@
-// devalyze_url/src/utils/csrf.js
+// src/utils/csrf.js
 
 /**
  * CSRF Token Management Utilities
  * Handles fetching, storing, and retrieving CSRF tokens
  */
 
-// Get API base URL from environment
 const API_BASE_URL =
     import.meta.env.MODE === "development"
         ? import.meta.env.VITE_API_BASE_URL_DEV
         : import.meta.env.VITE_API_BASE_URL;
 
 /**
- * Get CSRF token from browser cookies
- * @returns {string|null} CSRF token or null if not found
+ * Get CSRF token from cookie
  */
 export function getCsrfTokenFromCookie() {
-    const name = 'csrfToken=';
+    const name = '_csrf=';
     const cookies = document.cookie.split(';');
 
     for (let cookie of cookies) {
         cookie = cookie.trim();
-
-        if (cookie.indexOf(name) === 0) {
+        if (cookie.startsWith(name)) {
             const token = cookie.substring(name.length);
             console.log('✅ CSRF token found in cookie:', token.substring(0, 16) + '...');
             return token;
@@ -34,20 +31,23 @@ export function getCsrfTokenFromCookie() {
 }
 
 /**
+ * Validate token format (32 bytes hex = 64 chars)
+ */
+export function isValidTokenFormat(token) {
+    if (!token || typeof token !== 'string') return false;
+    return /^[a-f0-9]{64}$/i.test(token);
+}
+
+/**
  * Fetch a fresh CSRF token from the server
- * @returns {Promise<string>} CSRF token
- * @throws {Error} If token fetch fails
  */
 export async function fetchCsrfToken() {
     try {
         console.log('🔄 Fetching new CSRF token from server...');
-
         const response = await fetch(`${API_BASE_URL}/api/csrf-token`, {
             method: 'GET',
-            credentials: 'include', // Important: Send cookies with request
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
         });
 
         if (!response.ok) {
@@ -55,7 +55,6 @@ export async function fetchCsrfToken() {
         }
 
         const data = await response.json();
-
         if (!data.csrfToken) {
             throw new Error('No CSRF token in response');
         }
@@ -65,107 +64,57 @@ export async function fetchCsrfToken() {
 
     } catch (error) {
         console.error('❌ Error fetching CSRF token:', error);
-        throw new Error(`CSRF token fetch failed: ${error.message}`);
-    }
-}
-
-/**
- * Initialize CSRF token on app startup
- * Checks for existing token in cookies, fetches new one if missing
- * @returns {Promise<string>} CSRF token
- */
-export async function initializeCsrfToken() {
-    try {
-        console.log('🚀 Initializing CSRF protection...');
-
-        // First, check if we already have a valid token in cookies
-        const existingToken = getCsrfTokenFromCookie();
-
-        if (existingToken) {
-            console.log('♻️ Using existing CSRF token from cookie');
-            return existingToken;
-        }
-
-        // No token found, fetch a new one
-        console.log('🆕 No existing token found, fetching new one...');
-        const newToken = await fetchCsrfToken();
-
-        // Verify the token was set in cookies
-        setTimeout(() => {
-            const verifyToken = getCsrfTokenFromCookie();
-            if (verifyToken) {
-                console.log('✅ CSRF token successfully initialized and verified');
-            } else {
-                console.warn('⚠️ CSRF token fetched but not found in cookies');
-            }
-        }, 100);
-
-        return newToken;
-
-    } catch (error) {
-        console.error('❌ Failed to initialize CSRF token:', error);
         throw error;
     }
 }
 
 /**
- * Refresh CSRF token (call this after logout or token expiration)
- * @returns {Promise<string>} New CSRF token
+ * Initialize CSRF token on app startup
+ */
+export async function initializeCsrfToken() {
+    let token = getCsrfTokenFromCookie();
+    if (token && isValidTokenFormat(token)) {
+        console.log('♻️ Using existing CSRF token from cookie');
+        return token;
+    }
+
+    token = await fetchCsrfToken();
+    if (!getCsrfTokenFromCookie()) {
+        console.warn('⚠️ CSRF token fetched but not yet in cookies');
+    }
+
+    return token;
+}
+
+/**
+ * Refresh token (after logout or expiration)
  */
 export async function refreshCsrfToken() {
-    console.log('🔄 Refreshing CSRF token...');
     return await fetchCsrfToken();
 }
 
 /**
- * Clear CSRF token from memory (call on logout)
- * Note: Cookie will be cleared by server
+ * Clear CSRF token
  */
 export function clearCsrfToken() {
-    console.log('🗑️ CSRF token cleared (cookie will be removed by server)');
-    // The server handles cookie deletion via res.clearCookie()
-    // We just log it here for tracking
+    console.log('🗑️ CSRF token cleared (server should remove cookie)');
 }
 
 /**
- * Check if CSRF token exists
- * @returns {boolean} True if token exists in cookies
+ * Check if token exists
  */
 export function hasCsrfToken() {
     return getCsrfTokenFromCookie() !== null;
 }
 
 /**
- * Validate token format (basic check)
- * @param {string} token - Token to validate
- * @returns {boolean} True if token appears valid
- */
-export function isValidTokenFormat(token) {
-    if (!token || typeof token !== 'string') {
-        return false;
-    }
-
-    // Token should be 64 hex characters (32 bytes)
-    const hexPattern = /^[a-f0-9]{64}$/i;
-    return hexPattern.test(token);
-}
-
-/**
- * Get token with validation
- * @returns {string|null} Valid token or null
+ * Get validated token
  */
 export function getValidatedToken() {
     const token = getCsrfTokenFromCookie();
-
-    if (!token) {
-        console.warn('⚠️ No CSRF token available');
+    if (!token || !isValidTokenFormat(token)) {
+        console.warn('⚠️ Invalid or missing CSRF token');
         return null;
     }
-
-    if (!isValidTokenFormat(token)) {
-        console.error('❌ Invalid CSRF token format:', token.substring(0, 16) + '...');
-        return null;
-    }
-
     return token;
 }
