@@ -12,16 +12,16 @@ const Joi = require("joi");
 const validate = (schema) => {
   return (req, res, next) => {
     try {
-      // Clone request properties to avoid touching Express getters
+      // ✅ FIX: Safely clone query without spreading the getter
       const validationTarget = {
-        body: { ...req.body },
-        query: { ...req.query },
-        params: { ...req.params },
+        body: req.body ? { ...req.body } : {},
+        query: req.query ? Object.assign({}, req.query) : {}, // Use Object.assign instead
+        params: req.params ? { ...req.params } : {},
       };
 
       const { error, value } = schema.validate(validationTarget, {
-        abortEarly: false, // collect all errors
-        stripUnknown: true, // remove unknown keys
+        abortEarly: false,
+        stripUnknown: true,
       });
 
       if (error) {
@@ -54,7 +54,6 @@ const validate = (schema) => {
     }
   };
 };
-
 // ---------------------------------------------------------------------------
 // Common validation schemas
 // ---------------------------------------------------------------------------

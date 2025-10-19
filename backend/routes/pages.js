@@ -2,63 +2,14 @@ const express = require("express");
 const router = express.Router();
 const Page = require("../models/Page");
 const authMiddleware = require("../middleware/authMiddleware");
-const { pageSchema, usernameCheckSchema } = require("../middleware/validation");
-
-/**
- * Safer per-route validation middleware to prevent req.query mutation
- */
-const safeValidate = (schema) => {
-  return (req, res, next) => {
-    try {
-      // Clone objects before validation (avoid Express 5 readonly getters)
-      const validationTarget = {
-        body: { ...req.body },
-        query: { ...req.query },
-        params: { ...req.params },
-      };
-
-      const { error, value } = schema.validate(validationTarget, {
-        abortEarly: false,
-        stripUnknown: true,
-      });
-
-      if (error) {
-        const errors = error.details.map((detail) => ({
-          field: detail.path.join("."),
-          message: detail.message,
-        }));
-
-        console.warn(`⚠️ Validation failed for ${req.method} ${req.path}:`, errors);
-
-        return res.status(400).json({
-          success: false,
-          error: "Validation error",
-          details: errors,
-        });
-      }
-
-      // Safely replace validated data
-      if (value.body) req.body = value.body;
-      if (value.params) req.params = value.params;
-      req.validatedQuery = value.query || {};
-
-      next();
-    } catch (err) {
-      console.error("❌ Validation middleware error:", err);
-      res.status(500).json({
-        success: false,
-        error: "Internal validation middleware error",
-      });
-    }
-  };
-};
+const { validate, pageSchema, usernameCheckSchema } = require("../middleware/validation");
 
 /**
  * @route   POST /api/pages
  * @desc    Create or update a user's page
  * @access  Private
  */
-router.post("/", authMiddleware, safeValidate(pageSchema), async (req, res) => {
+router.post("/", authMiddleware, validate(pageSchema), async (req, res) => {
   try {
     const userId = req.user.userId;
     const { username, profileName, bio, profileImage, theme, links } = req.body;
@@ -127,7 +78,7 @@ router.get("/my-page", authMiddleware, async (req, res) => {
  * @desc    Check if a username is available
  * @access  Public
  */
-router.get("/check-username/:username", safeValidate(usernameCheckSchema), async (req, res) => {
+router.get("/check-username/:username", validate(usernameCheckSchema), async (req, res) => {
   try {
     const { username } = req.params;
 
@@ -152,9 +103,9 @@ router.get("/check-username/:username", safeValidate(usernameCheckSchema), async
  * @desc    Public view of a user's page
  * @access  Public
  */
-router.get("/:username", safeValidate(usernameCheckSchema), async (req, res) => {
+router.get("/:username", validate(usernameCheckSchema), async (req, res) => {
   try {
-    const { username } = req.params; // ✅ fixed (was req.validatedQuery before)
+    const { username } = req.params;
     const page = await Page.findOne({ username });
 
     if (!page) {
