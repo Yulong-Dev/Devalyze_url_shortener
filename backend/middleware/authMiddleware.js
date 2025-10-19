@@ -1,7 +1,12 @@
+// backend/middleware/authMiddleware.js (assuming this is the file name)
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-const verifyToken = (req, res, next) => {
+/**
+ * JWT Authentication Middleware
+ * (Renamed from verifyToken to authenticateJWT for clarity)
+ */
+const authenticateJWT = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
@@ -19,4 +24,4 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-module.exports = verifyToken;
+module.exports = authenticateJWT;

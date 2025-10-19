@@ -1,157 +1,92 @@
 const express = require("express");
 const router = express.Router();
-const { body, validationResult } = require('express-validator');
-const rateLimit = require('express-rate-limit');
-const verifyToken = require("../middleware/authMiddleware");
-const User = require("../models/User");
+const User = require("../models/User"); // Assuming a Mongoose User model
+const authMiddleware = require("../middleware/authMiddleware");
+const { validate, profileUpdateSchema, passwordChangeSchema } = require("../middleware/validation");
+const bcrypt = require("bcryptjs");
 
-// Rate limiters
-const profileUpdateLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 10,
-  message: "Too many profile update attempts",
-});
+// --- Private Routes (Requires authMiddleware) ---
 
-const passwordChangeLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 3,
-  message: "Too many password change attempts. Please try again later.",
-});
-
-// @route   GET /api/users/me
-// @desc    Get current logged in user
-// @access  Private
-router.get("/me", verifyToken, async (req, res) => {
+// GET: Fetch the currently logged-in user's profile
+router.get("/profile", authMiddleware, async (req, res) => {
   try {
-    const user = await User.findById(req.user.userId).select("-password -__v -passwordHistory");
+    const user = await User.findById(req.user.userId).select("-password"); // Exclude password hash
+    
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ success: false, error: "User not found." });
     }
-    res.json(user.toPublicJSON());
+
+    res.json({ success: true, user });
   } catch (err) {
-    console.error('Get user error:', err);
-    res.status(500).json({ message: "Server error" });
+    console.error("GET /user/profile error:", err);
+    res.status(500).json({ success: false, error: "Server error" });
   }
 });
 
-// @route   PATCH /api/users/me
-// @desc    Update user profile
-// @access  Private
-router.patch("/me", 
-  verifyToken,
-  profileUpdateLimiter,
-  [
-    body('email').optional().isEmail().normalizeEmail().withMessage('Invalid email'),
-    body('fullName').optional().trim().isLength({ min: 2, max: 100 }),
-    body('surname').optional().trim().isLength({ max: 50 }),
-    body('otherNames').optional().trim().isLength({ max: 100 }),
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+// POST: Update the currently logged-in user's profile details
+router.post("/profile", authMiddleware, validate(profileUpdateSchema), async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    // req.body is the validated, sanitized data from profileUpdateSchema
+    const updates = req.body; 
+
+    // Find and update the user, preventing update of sensitive fields like email or password
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: updates },
+      { new: true, runValidators: true, select: "-password" } // Return updated user, exclude password
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ success: false, error: "User not found." });
     }
 
-    const { fullName, surname, otherNames, email, language, country } = req.body;
-
-    try {
-      const user = await User.findById(req.user.userId);
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
-
-      // Handle email change with verification
-      if (email && email.toLowerCase() !== user.email.toLowerCase()) {
-        const existingUser = await User.findOne({ email: email.toLowerCase() });
-        if (existingUser) {
-          return res.status(400).json({ message: "This operation cannot be completed" });
-        }
-        
-        // TODO: Implement email verification flow
-        return res.status(400).json({ 
-          message: "Email change requires verification. Feature coming soon." 
-        });
-      }
-
-      // Update allowed fields only
-      const allowedUpdates = { fullName, surname, otherNames, language, country };
-      Object.keys(allowedUpdates).forEach(key => {
-        if (allowedUpdates[key] !== undefined) {
-          user[key] = allowedUpdates[key];
-        }
-      });
-
-      await user.save();
-
-      res.json(user.toPublicJSON());
-    } catch (err) {
-      console.error('Profile update error:', err);
-      res.status(500).json({ message: "Failed to update profile" });
-    }
+    res.json({ 
+      success: true, 
+      message: "Profile updated successfully", 
+      user: updatedUser 
+    });
+  } catch (err) {
+    console.error("POST /user/profile update error:", err);
+    res.status(500).json({ success: false, error: "Server error during profile update" });
   }
-);
+});
 
-// @route   PATCH /api/users/me/password
-// @desc    Change password
-// @access  Private
-router.patch("/me/password", 
-  verifyToken,
-  passwordChangeLimiter,
-  [
-    body('currentPassword').notEmpty().withMessage('Current password is required'),
-    body('newPassword')
-      .isLength({ min: 8 }).withMessage('Password must be at least 8 characters')
-      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/)
-      .withMessage('Password must contain uppercase, lowercase, number, and special character'),
-  ],
-  async (req, res) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
-    }
-
+// POST: Change the user's password
+router.post("/change-password", authMiddleware, validate(passwordChangeSchema), async (req, res) => {
+  try {
+    const userId = req.user.userId;
     const { currentPassword, newPassword } = req.body;
 
-    // Check if passwords are the same
-    if (currentPassword === newPassword) {
-      return res.status(400).json({ message: "New password must be different" });
+    const user = await User.findById(userId);
+
+    if (!user) {
+      // Should not happen if auth middleware passed, but good practice
+      return res.status(404).json({ success: false, error: "User not found." });
     }
 
-    try {
-      const user = await User.findById(req.user.userId);
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
+    // 1. Verify current password
+    // Assuming User model has a method/plugin to compare passwords
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
 
-      // Check if account has password (not OAuth)
-      if (!user.password) {
-        return res.status(400).json({ 
-          message: "Cannot change password for social login accounts" 
-        });
-      }
-
-      // Verify current password
-      const isMatch = await user.comparePassword(currentPassword);
-      if (!isMatch) {
-        return res.status(400).json({ message: "Current password is incorrect" });
-      }
-
-      // Update password (model will hash it)
-      user.password = newPassword;
-      user.tokenVersion = (user.tokenVersion || 0) + 1; // Invalidate old tokens
-      await user.save();
-
-      // Log security event
-      console.log(`[SECURITY] Password changed for user ${user._id}`);
-
-      res.json({ 
-        message: "Password updated successfully. Please log in again with your new password." 
-      });
-    } catch (err) {
-      console.error('Password change error:', err);
-      res.status(500).json({ message: "Failed to update password" });
+    if (!isMatch) {
+      return res.status(401).json({ success: false, error: "Incorrect current password." });
     }
+
+    // 2. Hash the new password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, salt);
+
+    // 3. Update the password
+    user.password = hashedPassword;
+    await user.save(); // Mongoose pre-save hooks (if any) will run here
+
+    res.json({ success: true, message: "Password updated successfully." });
+
+  } catch (err) {
+    console.error("POST /user/change-password error:", err);
+    res.status(500).json({ success: false, error: "Server error during password change" });
   }
-);
+});
 
 module.exports = router;
